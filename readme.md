@@ -97,15 +97,18 @@ Este repositório é um template no GitHub. Para usá-lo:
 
 ```
 ├── src/
+│   ├── containers/      # Padrão para abstrair inicializações
 │   ├── controllers/     # Controladores da API
 │   ├── database/        # Configurações do banco de dados
 │   ├── dtos/            # Data Transfer Objects
 │   ├── envs/            # Configurações de ambiente
 │   ├── middlewares/     # Middlewares personalizados
 │   ├── models/          # Modelos de dados
+│   ├── repositories/    # Acopla manilações DB
 │   ├── routes/          # Definições de rotas
 │   ├── services/        # Lógica de negócio
 │   ├── utils/           # Utilitários
+|   │   ├── types/       # Types
 │   ├── app.ts           # Configuração do Express
 │   └── server.ts        # Ponto de entrada da aplicação
 ├── prisma/
@@ -134,6 +137,66 @@ Este repositório é um template no GitHub. Para usá-lo:
 - **Docker**: Containerização.
 - **ts-node-dev**: Ferramenta para desenvolvimento com TypeScript e autoreload.
 
+
+## 📊 Documentação do Sistema
+
+## Requisitos
+<div style="display: flex; gap: 40px;">
+
+<div>
+
+### 📌 Requisitos Funcionais
+
+| ID   | Descrição                    |
+|------|-----------------------------|
+| RF01 | Cadastro de usuários        |
+| RF02 | Login de usuários           |
+| RF03 | Criar tarefa                |
+| RF04 | Listar tarefas              |
+| RF05 | Buscar tarefa por ID        |
+| RF06 | Atualizar tarefa            |
+| RF07 | Remover tarefa              |
+
+</div>
+
+<div>
+
+### ⚙️ Requisitos Não Funcionais
+
+| ID    | Descrição                          |
+|-------|------------------------------------|
+| RNF01 | Tempo de resposta < 2 segundos     |
+| RNF02 | Segurança com autenticação JWT     |
+| RNF03 | Escalabilidade                     |
+| RNF04 | Disponibilidade de 99,9%           |
+| RNF05 | Código de fácil manutenção         |
+| RNF06 | Portabilidade entre ambientes      |
+| RNF07 | Compatível com principais clientes |
+
+</div>
+
+</div>
+
+## Diagramas
+
+### 🔄 Fluxograma
+<p align="center">
+  <img src="./src/docs/images/mental-model.png" alt="Fluxograma" width="800"/>
+</p>
+
+---
+
+### 🧩 UML de Classes
+<p align="center">
+  <img src="./src/docs/images/uml-classe.png" alt="UML de Classes" width="800"/>
+</p>
+
+---
+
+### 👤 Caso de Uso
+<p align="center">
+  <img src="./src/docs/images/user-case.png" alt="Caso de Uso" width="800"/>
+</p>
 ## Contribuição
 
 Contribuições são bem-vindas! Sinta-se à vontade para abrir issues e pull requests.
