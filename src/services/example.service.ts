@@ -1,7 +1,7 @@
 import { Example as ExampleEntity } from "@prisma/client";
 
 import { ExternalService } from ".";
-import prismaRepository from "../database/prisma.client";
+import prismaRepository from "../config/prisma.client";
 import { CreateExampleDto, FindExampleDto, UpdateExampleDto } from "../dtos";
 import { Example } from "../models";
 import { HTTPError } from "../utils";

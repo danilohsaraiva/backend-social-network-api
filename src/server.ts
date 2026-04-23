@@ -1,5 +1,5 @@
 import App from "./app";
-import { envs } from "./envs";
+import { envs } from "./config/envs";
 import {
   ExampleRoutes
 } from "./routes";

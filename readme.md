@@ -189,6 +189,10 @@ Este repositório é um template no GitHub. Para usá-lo:
 ### 🧩 UML de Classes
 <p align="center">
   <img src="./src/docs/images/uml-classe.png" alt="UML de Classes" width="800"/>
+
+  #### &
+<p align="center">
+  <img src="./src/docs/images/n-n-uml-classes.png" alt="UML de Classes" width="800"/>
 </p>
 
 ---

@@ -10,7 +10,7 @@
     "source.fixAll.eslint": "always"
   },
   "[prisma]": {
-    "editor.defaultFormatter": "Prisma.prisma"
+    "editor.defaultFormatter": "Prisma.prisma-insider"
   },
   "[typescript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"
