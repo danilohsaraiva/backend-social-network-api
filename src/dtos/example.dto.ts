@@ -7,4 +7,3 @@ export interface FindExampleDto {
 }
 
 export type UpdateExampleDto = CreateExampleDto & FindExampleDto;
-

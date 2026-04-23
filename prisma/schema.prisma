@@ -11,12 +11,12 @@ datasource db {
 model User {
     userId       String   @id @default(uuid()) @map("id_user")
     userName     String   @map("user_name")
-    userNickName String   @map("user_nick_name")
+    userNickName String   @unique @map("user_nick_name")
     password     String   @map("password")
     imageUrl     String?  @map("image_url")
-    createAt     DateTime @default(now()) @map("created_at")
-    updateAt     DateTime @default(now()) @updatedAt @map("updated_at")
-    isActive     Boolean  @map("is_active")
+    createdAt    DateTime @default(now()) @map("created_at")
+    updatedAt    DateTime @default(now()) @updatedAt @map("updated_at")
+    isActive     Boolean  @default(true) @map("is_active")
 
     following Follow[] @relation("UserFollowing")
     followers Follow[] @relation("UserFollowers")

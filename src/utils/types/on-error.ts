@@ -1,6 +1,6 @@
 import { Response } from "express";
-
 import { HTTPError } from "./http.error";
+
 
 export function onError(error: unknown, res: Response): Response {
   if (error instanceof HTTPError) {

@@ -1,13 +1,13 @@
 import App from "./app";
 import { envs } from "./config/envs";
 import {
-  ExampleRoutes
+  UsersRoutes
 } from "./routes";
 
 const app = new App(
   [
-    ExampleRoutes.bind(),
     // Add more routes here
+    UsersRoutes.bind(),
   ],
   envs.PORT,
 );

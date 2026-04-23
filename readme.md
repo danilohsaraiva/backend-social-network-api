@@ -103,6 +103,7 @@ Este repositório é um template no GitHub. Para usá-lo:
 │   ├── dtos/            # Data Transfer Objects
 │   ├── envs/            # Configurações de ambiente
 │   ├── middlewares/     # Middlewares personalizados
+│   ├── interfaces/      # Interfaces personalizados
 │   ├── models/          # Modelos de dados
 │   ├── repositories/    # Acopla manilações DB
 │   ├── routes/          # Definições de rotas

@@ -1,5 +1,6 @@
 import cors from "cors";
 import express from "express";
+import { errorMiddleware } from "./middlewares/global-error-validator.middlware";
 
 class App {
   public app: express.Application;
@@ -11,6 +12,8 @@ class App {
 
     this.initializeMiddlewares();
     this.initializeControllers(routers);
+
+    this.initializeErrorHandler();
   }
 
   private initializeMiddlewares() {
@@ -22,6 +25,10 @@ class App {
     routers.forEach((router) => {
       this.app.use(router);
     });
+  }
+
+  private initializeErrorHandler() {
+    this.app.use(errorMiddleware);
   }
 
   public listen() {
