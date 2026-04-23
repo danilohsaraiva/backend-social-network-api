@@ -1,6 +1,8 @@
 import cors from "cors";
 import express from "express";
 import { errorMiddleware } from "./middlewares/global-error-validator.middlware";
+import { swaggerSpec } from "./config/swagger";
+import swaggerUi from 'swagger-ui-express';
 
 class App {
   public app: express.Application;
@@ -9,7 +11,7 @@ class App {
   constructor(routers: express.Router[], port: number) {
     this.app = express();
     this.port = port;
-
+    this.initializeSwagger();
     this.initializeMiddlewares();
     this.initializeControllers(routers);
 
@@ -29,6 +31,10 @@ class App {
 
   private initializeErrorHandler() {
     this.app.use(errorMiddleware);
+  }
+
+  private initializeSwagger() {
+    this.app.use("/doc", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
   }
 
   public listen() {

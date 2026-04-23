@@ -1,6 +1,5 @@
 import { prismaConnection } from "../config/prisma.client";
-
-import { CreateUserDto, LoginDto } from "../dtos";
+import { CreateUserDto } from "../dtos";
 
 /**
  * Repository responsável por todas as operações de banco relacionadas a Usuário.
@@ -21,10 +20,10 @@ export class UserRepository {
         })
     }
 
-    async findByUserNickName(data: LoginDto) {
+    async findByUserNickName(nickName: string) {
         return prismaConnection.user.findUnique({
             where: {
-                userNickName: data.userNickName
+                userNickName: nickName
             }
         })
     }

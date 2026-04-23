@@ -1,7 +1,7 @@
-import { Request, Response, NextFunction } from "express";
+import { NextFunction, Request, Response } from "express";
 import { ContextRunner, FieldValidationError } from "express-validator";
 
-import { HTTPError, onError } from "../utils";
+import { HTTPError } from "../utils";
 
 export function dataValidation(validations: ContextRunner[]) {
   return async (req: Request, res: Response, next: NextFunction) => {
@@ -19,7 +19,7 @@ export function dataValidation(validations: ContextRunner[]) {
       if (errors.length) {
         throw new HTTPError(
           400,
-          "Requisição inválida",
+          "Validation failed",
           errors.map((e) => ({
             type: e.type,
             field: e.path,
@@ -31,7 +31,7 @@ export function dataValidation(validations: ContextRunner[]) {
 
       next();
     } catch (error) {
-      onError(error, res);
+      next(error);
     }
   };
 }

@@ -1,7 +1,7 @@
 import express from 'express';
 import { body } from 'express-validator';
-import { dataValidation } from '../middlewares';
 import { userController } from '../containers/user.container';
+import { dataValidation } from '../middlewares';
 
 /**
  *             dataValidation([
@@ -36,20 +36,39 @@ export class UsersRoutes {
     public static bind() {
         const router = express.Router();
         /**
-         * @route POST /users
-         * @description Endpoint responsável por criar um novo usuário no sistema
-         * 
-         * Recebe os dados do usuário (name, email e password),
-         * envia para o UserController que processa a criação e persiste no banco de dados.
-         * 
-         * @body {string} name - Nome do usuário
-         * @body {string} email - Email do usuário
-         * @body {string} password - Senha do usuário
-         * 
-         * @returns {201} { object } - Usuário criado com sucesso
-         * @returns {500} { error: string } - Erro interno do servidor
-         * {
-         */
+             * @swagger
+             * /users:
+             *   post:
+             *     summary: Cria um usuário
+             *     tags: [Users]
+             *     requestBody:
+             *       required: true
+             *       content:
+             *         application/json:
+             *           schema:
+             *             type: object
+             *             properties:
+             *               userName:
+             *                 type: string
+             *                 example: John Wick
+             *               userNickName:
+             *                 type: string
+             *                 example: john_wick
+             *               password:
+             *                 type: string
+             *                 example: JH_WICK%
+             *               imageUrl:
+             *                 type: string
+             *                 example: https://site.com/foto.png
+             *     responses:
+             *       201:
+             *         description: Created
+             *       409:
+             *         description: User already exists
+             *       500:
+             *         description: Internal serve 
+             */
+
         router.post("/users",
             /*  #swagger.tags = ['Users']
                 #swagger.description = 'Endpoint responsável por criar um novo usuário no sistema. Recebe os dados do usuário (name, email e password), envia para o UserController que processa a criação e persiste no banco de dados.'
@@ -112,11 +131,25 @@ export class UsersRoutes {
                 }
             */
             dataValidation([
-                body('userName').isString().isLength({ min: 1 }),
-                body('userNickName').isString().isLength({ min: 1 }),
-                body('password').isString().isLength({ min: 6 }),
-                body('imageUrl').optional().isString(),
-                body('isActive').isBoolean()
+                body('userName')
+                    .isString().withMessage('userName must be a string')
+                    .isLength({ min: 1 }).withMessage('userName is required'),
+
+                body('userNickName')
+                    .isString().withMessage('userNickName must be a string')
+                    .isLength({ min: 1 }).withMessage('userNickName is required'),
+
+                body('password')
+                    .isString().withMessage('password must be a string')
+                    .isLength({ min: 6 }).withMessage('password must be at least 6 characters long'),
+
+                body('imageUrl')
+                    .optional()
+                    .isString().withMessage('imageUrl must be a string'),
+
+                body('isActive')
+                    .optional()
+                    .isBoolean().withMessage('isActive must be a boolean')
             ]),
             userController.createUser
         )

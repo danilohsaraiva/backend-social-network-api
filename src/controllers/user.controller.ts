@@ -1,8 +1,7 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { CreateUserDto } from "../dtos";
 import { UserService } from "../services";
 import { HTTPResponse } from "../utils";
-import { Result } from 'express-validator';
 
 /**
  * Repository responsável por todas as operações de banco relacionadas a Usuário.
@@ -18,19 +17,22 @@ export class UserController {
      * @param data - Dados necessários para criação do usuário (nome, email, senha)
      * @returns Usuário criado retornado pelo Prisma
      */
-    public createUser = async (req: Request, res: Response) => {
+    public createUser = async (req: Request, res: Response, next: NextFunction) => {
 
+        try {
+            const usarData: CreateUserDto = req.body;
 
-        const usarData: CreateUserDto = req.body;
+            const result = await this.userService.createUser(usarData);
 
-        const result = await this.userService.createUser(usarData);
-
-        return HTTPResponse({
-            res,
-            statusCode: 201,
-            message: "Created",
-            data: Result
-        })
+            return HTTPResponse({
+                res,
+                statusCode: 201,
+                message: "Created",
+                data: result
+            });
+        } catch (error) {
+            next(error);
+        }
     }
 
     // async findUserByEmail(data: LoginDto) {

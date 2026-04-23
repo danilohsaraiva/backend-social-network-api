@@ -1,7 +1,8 @@
 import { User } from '@prisma/client';
-import { CreateUserDto } from '../dtos';
 import { CryptoProvider } from '../providers';
 import { UserRepository } from '../repositories';
+import { HTTPError } from '../utils';
+import { CreateUserDto } from './../dtos/user/create-user-dto';
 // import { CreateUserDto } from '../dtos';
 // import { UserRepository } from '../repositories';
 
@@ -28,10 +29,18 @@ export class UserService {
      */
     public async createUser(user: CreateUserDto): Promise<User> {
 
+        const currentUser = await this.userRepository.findByUserNickName(user.userNickName);
+
+        if (currentUser) {
+            throw new HTTPError(
+                409,
+                "User already exist"
+            )
+        }
 
         const hashedPassword = await this.hashProvider.hash(user.password)
 
-        const newUser = await this.userRepository.createUser(user);
+        const newUser: User = await this.userRepository.createUser(user);
 
         return this.mapToModel(newUser);
     }
