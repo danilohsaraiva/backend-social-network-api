@@ -15,5 +15,8 @@
   "[typescript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"
   },
-  "prisma.pinToPrisma6": true
+  "prisma.pinToPrisma6": true,
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  }
 }
