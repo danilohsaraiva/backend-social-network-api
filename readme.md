@@ -97,11 +97,13 @@ Este repositório é um template no GitHub. Para usá-lo:
 
 ```
 ├── src/
+│   ├── config/          # Arquivos de configuração
 │   ├── containers/      # Padrão para abstrair inicializações
-│   ├── controllers/     # Controladores da API
+│   ├── dtos/            # Data Transfer Objects
+│   ├── containers/      # Padrão para abstrair inicializações 
+│   ├── containers/      # Padrão para abstrair inicializações
 │   ├── database/        # Configurações do banco de dados
 │   ├── dtos/            # Data Transfer Objects
-│   ├── envs/            # Configurações de ambiente
 │   ├── middlewares/     # Middlewares personalizados
 │   ├── interfaces/      # Interfaces personalizados
 │   ├── models/          # Modelos de dados
