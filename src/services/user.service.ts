@@ -1,25 +1,15 @@
 import { User } from '@prisma/client';
-import { CryptoProvider } from '../providers';
+import { ResponseUserDto } from '../dtos';
+import { CryptoHashProvider } from '../providers';
 import { UserRepository } from '../repositories';
 import { HTTPError } from '../utils';
-import { CreateUserDto } from './../dtos/user/create-user-dto';
-// import { CreateUserDto } from '../dtos';
-// import { UserRepository } from '../repositories';
+import { RequestUserDto } from './../dtos/user/request-user-dto';
 
-/**
- * Service responsável pelas regras de negócio relacionadas a Usuário.
- * 
- * Camada intermediária entre Controller e Repository.
- * Responsável por:
- * - Criação de usuário
- * - Hash de senha
- * - Mapeamento de entidade
- */
 export class UserService {
 
     constructor(
         private userRepository: UserRepository,
-        private hashProvider: CryptoProvider
+        private hashProvider: CryptoHashProvider
     ) { }
     /**
      * Cria um novo usuário no sistema.
@@ -27,22 +17,34 @@ export class UserService {
      * @param dto - Dados necessários para criação do usuário
      * @returns Usuário criado no formato de domínio (User)
      */
-    public async createUser(user: CreateUserDto): Promise<User> {
+    public async createUser(user: RequestUserDto): Promise<ResponseUserDto> {
 
-        const currentUser = await this.userRepository.findByUserNickName(user.userNickName);
+        const validateUserCredentials = await this.userRepository.findByUserNickName(user.userNickName);
 
-        if (currentUser) {
+        if (validateUserCredentials) {
             throw new HTTPError(
                 409,
                 "User already exist"
             )
         }
 
-        const hashedPassword = await this.hashProvider.hash(user.password)
+        const hashedPassword = await this.hashProvider.hash(user.password);
 
-        const newUser: User = await this.userRepository.createUser(user);
+        if (!hashedPassword || hashedPassword.length === 0) {
+            throw new HTTPError(500, 'Error generating password hash');
+        }
 
-        return this.mapToModel(newUser);
+        const isActive = (user.isActive) ? user.isActive : true;
+
+        const result: User = await this.userRepository.createUser({
+            userName: user.userName,
+            userNickName: user.userNickName,
+            password: hashedPassword,
+            imageUrl: user.imageUrl ?? null,
+            isActive: isActive
+        });
+
+        return this.mapToModel(result);
     }
 
     /**
@@ -51,19 +53,15 @@ export class UserService {
      * @param entity - Usuário vindo do Prisma
      * @returns Instância de User (modelo da aplicação)
      */
-    private mapToModel(entity: User): User {
-        const currentUser: User = {
-            userId: entity.userId,
+    private mapToModel(entity: User): ResponseUserDto {
+        return {
             userName: entity.userName,
             userNickName: entity.userNickName,
-            password: entity.password,
-            imageUrl: entity.imageUrl,
-            isActive: true,
+            imageUrl: entity.imageUrl ?? null,
+            isActive: entity.isActive ?? true,
             createdAt: entity.createdAt,
             updatedAt: entity.updatedAt
-        }
-
-        return currentUser;
-    };
+        };
+    }
 }
 

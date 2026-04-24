@@ -1,1 +1,1 @@
-export * from "./crypto.provider"
+export * from "./crypto-hash.provider"

@@ -3,35 +3,6 @@ import { body } from 'express-validator';
 import { userController } from '../containers/user.container';
 import { dataValidation } from '../middlewares';
 
-/**
- *             dataValidation([
-                body("fieldString").isString().isLength({ min: 1 }),
-                body("fieldNumber").isNumeric().isInt({ min: 0 }),
-                body("fieldBoolean").isBoolean(),
-
-                // array of strings
-                body("fieldArray").isArray(),
-                body("fieldArray.*").isString(),
-
-                // nested object
-                body("fieldObject").isObject(),
-                body("fieldObject.nestedField1").isString().isLength({ min: 1 }),
-                body("fieldObject.nestedField2").isNumeric().isInt({ min: 0 }),
-
-                // optional fields
-                body("fieldOptional").optional().isString(),
-
-                // custom validation
-                body("fieldCustom").custom((value: any) => {
-                    if (value !== "validValue") {
-                        throw new Error("fieldCustom must be 'validValue'");
-                    }
-                    return true;
-                }),
-            ])
- */
-
-
 export class UsersRoutes {
     public static bind() {
         const router = express.Router();
@@ -39,7 +10,7 @@ export class UsersRoutes {
              * @swagger
              * /users:
              *   post:
-             *     summary: Cria um usuário
+             *     summary: Create user
              *     tags: [Users]
              *     requestBody:
              *       required: true
@@ -56,7 +27,7 @@ export class UsersRoutes {
              *                 example: john_wick
              *               password:
              *                 type: string
-             *                 example: JH_WICK%
+             *                 example: password123
              *               imageUrl:
              *                 type: string
              *                 example: https://site.com/foto.png

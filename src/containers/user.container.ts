@@ -1,11 +1,9 @@
 import { UserController } from '../controllers';
-import { CryptoProvider } from '../providers';
+import { CryptoHashProvider } from '../providers';
 import { UserRepository } from '../repositories';
 import { UserService } from '../services';
 
-
-const cryptoHashProvider = new CryptoProvider();
-
+const cryptoHashProvider = new CryptoHashProvider();
 const userRepository = new UserRepository();
 const userService = new UserService(userRepository, cryptoHashProvider);
 const userController = new UserController(userService);

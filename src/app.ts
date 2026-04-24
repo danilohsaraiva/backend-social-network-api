@@ -34,7 +34,7 @@ class App {
   }
 
   private initializeSwagger() {
-    this.app.use("/doc", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+    this.app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
   }
 
   public listen() {

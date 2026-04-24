@@ -1,5 +1,6 @@
+import { User } from "@prisma/client";
 import { prismaConnection } from "../config/prisma.client";
-import { CreateUserDto } from "../dtos";
+import { RequestUserDto } from "../dtos/user/request-user-dto";
 
 /**
  * Repository responsável por todas as operações de banco relacionadas a Usuário.
@@ -14,7 +15,7 @@ export class UserRepository {
      * @param data - Dados necessários para criação do usuário (nome, email, senha)
      * @returns Usuário criado retornado pelo Prisma
      */
-    async createUser(data: CreateUserDto) {
+    async createUser(data: RequestUserDto) {
         return prismaConnection.user.create({
             data
         })
