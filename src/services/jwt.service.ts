@@ -2,8 +2,7 @@ import { sign, verify } from 'jsonwebtoken';
 import { getJwtOptions } from '../config/jwt.config';
 
 interface JwtUserPayload {
-    id: string;
-    username: string;
+    userId: string;
 }
 export class JwtService {
     //header. payload. signature
@@ -11,7 +10,7 @@ export class JwtService {
         const secret = process.env.JWT_SECRET;
 
         if (!secret) {
-            throw new Error('JWT_SECRET não está definido');
+            throw new Error('JWT_SECRET missing');
         }
 
         const token = sign(
@@ -27,7 +26,7 @@ export class JwtService {
         const secret = process.env.JWT_SECRET;
 
         if (!secret) {
-            throw new Error('JWT_SECRET não está definido');
+            throw new Error('JWT_SECRET missing');
         }
 
         return verify(token, secret) as JwtUserPayload;

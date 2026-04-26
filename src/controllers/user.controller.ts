@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
-import { RequestUserDto } from '../dtos/user/request-user-dto';
 import { UserService } from "../services";
 import { HTTPError, HTTPResponse } from "../utils";
+import { CreateUserDto } from '../dtos/user/user-dto';
 
 /**
  * Repository responsável por todas as operações de banco relacionadas a Usuário.
@@ -19,8 +19,9 @@ export class UserController {
      */
     public create = async (req: Request, res: Response, next: NextFunction) => {
 
+
         try {
-            const userData: RequestUserDto = req.body;
+            const userData: CreateUserDto = req.body;
 
             const result = await this.userService.create(userData);
 
@@ -38,7 +39,6 @@ export class UserController {
     public findById = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const idParam = req.params.id;
-            console.log("passsei aquiiiiiiiiiiiii " + idParam)
 
             if (typeof idParam !== "string") {
                 throw new HTTPError(400, "Invalid id")

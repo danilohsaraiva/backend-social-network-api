@@ -1,9 +1,9 @@
 import { User } from '@prisma/client';
-import { ResponseUserDto } from '../dtos';
+
 import { CryptoHashProvider } from '../providers';
 import { UserRepository } from '../repositories';
 import { HTTPError } from '../utils';
-import { RequestUserDto } from './../dtos/user/request-user-dto';
+import { CreateUserDto, ResponseUserDto } from '../dtos/user/user-dto';
 
 export class UserService {
 
@@ -17,7 +17,7 @@ export class UserService {
      * @param dto - Dados necessários para criação do usuário
      * @returns Usuário criado no formato de domínio (User)
      */
-    public async create(user: RequestUserDto): Promise<ResponseUserDto> {
+    public async create(user: CreateUserDto): Promise<ResponseUserDto> {
 
         const validateUserCredentials = await this.userRepository.findByNickName(user.userNickName);
 
@@ -34,13 +34,13 @@ export class UserService {
             throw new HTTPError(500, 'Error generating password hash');
         }
 
-        const isActive = (user.isActive) ? user.isActive : true;
+        const isActive = (user.isActive) ?? true;
 
         const result: User = await this.userRepository.createUser({
             userName: user.userName,
             userNickName: user.userNickName,
             password: hashedPassword,
-            imageUrl: user.imageUrl ?? null,
+            imageUrl: user.imageUrl,
             isActive: isActive
         });
 
@@ -49,7 +49,7 @@ export class UserService {
 
     public async findByNickName(userNickName: string): Promise<ResponseUserDto | null> {
         if (!userNickName) {
-            throw new HTTPError(401, "userNickName not found");
+            throw new HTTPError(400, "userNickName is required");
         }
 
         const result: User | null = await this.userRepository.findByNickName(userNickName);
@@ -86,7 +86,7 @@ export class UserService {
             userName: entity.userName,
             userNickName: entity.userNickName,
             imageUrl: entity.imageUrl ?? null,
-            isActive: entity.isActive ?? true,
+            isActive: entity.isActive,
             createdAt: entity.createdAt,
             updatedAt: entity.updatedAt
         };

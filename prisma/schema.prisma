@@ -51,4 +51,5 @@ model Tweet {
     user   User   @relation(fields: [userFk], references: [userId])
 
     createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @default(now()) @map("updated_at")
 }

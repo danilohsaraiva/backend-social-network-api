@@ -1,3 +1,11 @@
+export interface CreateUserDto {
+    userName: string,
+    userNickName: string,
+    password: string,
+    imageUrl?: string | null
+    isActive?: boolean
+}
+
 export interface ResponseUserDto {
     userName: string,
     userNickName: string,

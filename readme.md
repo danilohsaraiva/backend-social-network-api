@@ -208,6 +208,33 @@ Este repositório é um template no GitHub. Para usá-lo:
 
 Contribuições são bem-vindas! Sinta-se à vontade para abrir issues e pull requests.
 ## Swagger 
+
+# 📌 API Endpoints Progress
+
+Acompanhamento dos endpoints da aplicação
+
+# 📌 Progresso dos Endpoints da API
+
+| #  | Descrição do Endpoint                        | Método | Status          | Observações                                                   |
+| -- | -------------------------------------------- | ------ | --------------- | ------------------------------------------------------------- |
+| 1  | Criar novo usuário                           | POST   | ✅ Concluído     |                                                               |
+| 2  | Obter dados do usuário (tweets e seguidores) | GET    | 🚧 Em andamento | Necessário implementar lógica para trazer tweets e seguidores |
+| 3  | Login de usuário                             | POST   | ✅ Concluído     | 🔐 JWT                                                        |
+| 4  | Criar tweet                                  | POST   | ✅ Concluído     | 🔐 JWT                                                        |
+| 5  | Criar resposta (reply) de tweet              | POST   | ⏳ Pendente      | 🔐 JWT                                                        |
+| 6  | Obter feed do usuário (tweets + seguindo)    | GET    | 🚧 Em andamento |                                                               |
+| 7  | Curtir tweet                                 | POST   | ⏳ Pendente      | 🔐 JWT                                                        |
+| 8  | Remover curtida de tweet                     | DELETE | ⏳ Pendente      | 🔐 JWT                                                        |
+| 9  | Seguir usuário                               | POST   | ⏳ Pendente      | 🔐 JWT                                                        |
+| 10 | Deixar de seguir usuário                     | DELETE | ⏳ Pendente      | 🔐 JWT                                                        |
+
+
+Legenda: 
+⏳ Pendente 
+🚧 Em andamento
+✅ Concluído
+❌ Bloqueado
+🔐 Middleware de autenticação JWT
 ## Licença
 
 Este projeto está sob a licença ISC.

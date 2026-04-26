@@ -1,11 +1,13 @@
 import express from 'express';
 import { body, param } from 'express-validator';
 import { userController } from '../containers/user.container';
-import { dataValidation } from '../middlewares';
+import { checkAuth, dataValidation } from '../middlewares';
+import { tweetController } from '../containers';
 
 export class UsersRoutes {
     public static bind() {
         const router = express.Router();
+
         /**
         * @swagger
         * /users:
@@ -188,12 +190,17 @@ export class UsersRoutes {
         *               details: null
         */
         router.get("/users/:id",
+            checkAuth,
             dataValidation([
                 param('id')
                     .notEmpty().withMessage('User id is required')
                     .isUUID().withMessage('User id must be a valid UUID')
             ]),
             userController.findById
+        )
+        router.post("users/tweet",
+            checkAuth,
+            tweetController.create
         )
 
         return router;

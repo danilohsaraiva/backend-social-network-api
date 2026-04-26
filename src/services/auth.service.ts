@@ -1,6 +1,5 @@
 import { User } from '@prisma/client';
-import { LoginDto } from '../dtos';
-import { AuthReponseDto } from '../dtos/auth/auth-response-dto';
+import { AuthReponseDto, LoginDto } from '../dtos/auth/auth-dto';
 import { CryptoHashProvider } from '../providers/crypto-hash.provider';
 import { UserRepository } from "../repositories";
 import { HTTPError } from '../utils';
@@ -40,8 +39,7 @@ export class AuthService {
         }
 
         const token = this.jwtService.createToken({
-            id: currentUser.userId,
-            username: currentUser.userNickName
+            userId: currentUser.userId
         });
 
         return {

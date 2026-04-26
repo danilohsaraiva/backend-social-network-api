@@ -6,3 +6,8 @@ export interface AuthReponseDto {
     createdAt: Date;
     updatedAt: Date;
 }
+
+export interface LoginDto {
+    userNickName: string,
+    password: string
+}
