@@ -1,10 +1,10 @@
-import { CryptoHashProvider } from '../providers/crypto-hash.provider';
-import { JwtService } from './jwt.service';
-import { UserRepository } from "../repositories";
-import { LoginDto } from '../dtos';
-import { HTTPError } from '../utils';
 import { User } from '@prisma/client';
+import { LoginDto } from '../dtos';
 import { AuthReponseDto } from '../dtos/auth/auth-response-dto';
+import { CryptoHashProvider } from '../providers/crypto-hash.provider';
+import { UserRepository } from "../repositories";
+import { HTTPError } from '../utils';
+import { JwtService } from './jwt.service';
 
 export class AuthService {
     constructor(
@@ -15,10 +15,10 @@ export class AuthService {
 
     public async authenticateUser(data: LoginDto) {
 
-        const currentUser = await this.userRepository.findByUserNickName(data.userNickName);
+        const currentUser = await this.userRepository.findByNickName(data.userNickName);
 
         if (!currentUser) {
-            throw new HTTPError(401, 'Invalid credentials');
+            throw new HTTPError(404, 'User not found');
         }
 
         const isPasswordValid = await this.cryptoProvider.compare(data.password, currentUser.password);
@@ -27,7 +27,7 @@ export class AuthService {
         console.log(isPasswordValid)
 
         if (!isPasswordValid) {
-            throw new HTTPError(401, 'Password invalid');
+            throw new HTTPError(401, 'Invalid credentials');
         }
 
         const secret = process.env.JWT_SECRET;
@@ -35,7 +35,7 @@ export class AuthService {
 
         if (!secret || !expiresIn) {
             throw new Error(
-                'As variáveis de ambiente JWT_SECRET e JWT_EXPIRES_IN devem estar configuradas.',
+                "Environment variables JWT_SECRET and JWT_EXPIRES_IN must be configured.",
             );
         }
 

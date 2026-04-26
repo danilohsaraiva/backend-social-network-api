@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
-import { CreateUserDto } from "../dtos";
+import { RequestUserDto } from '../dtos/user/request-user-dto';
 import { UserService } from "../services";
-import { HTTPResponse } from "../utils";
+import { HTTPError, HTTPResponse } from "../utils";
 
 /**
  * Repository responsável por todas as operações de banco relacionadas a Usuário.
@@ -17,12 +17,12 @@ export class UserController {
      * @param data - Dados necessários para criação do usuário (nome, email, senha)
      * @returns Usuário criado retornado pelo Prisma
      */
-    public createUser = async (req: Request, res: Response, next: NextFunction) => {
+    public create = async (req: Request, res: Response, next: NextFunction) => {
 
         try {
-            const usarData: CreateUserDto = req.body;
+            const userData: RequestUserDto = req.body;
 
-            const result = await this.userService.createUser(usarData);
+            const result = await this.userService.create(userData);
 
             return HTTPResponse({
                 res,
@@ -35,11 +35,26 @@ export class UserController {
         }
     }
 
-    // async findUserByEmail(data: LoginDto) {
-    //     return prismaConnection.user.findUnique({
-    //         where: {
-    //             email: data.userNickName
-    //         }
-    //     })
-    // }
+    public findById = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const idParam = req.params.id;
+            console.log("passsei aquiiiiiiiiiiiii " + idParam)
+
+            if (typeof idParam !== "string") {
+                throw new HTTPError(400, "Invalid id")
+            }
+
+            const result = await this.userService.findById(idParam);
+
+            return HTTPResponse({
+                res,
+                statusCode: 200,
+                message: "Sucess",
+                data: result
+            });
+
+        } catch (error) {
+            next(error)
+        }
+    }
 }

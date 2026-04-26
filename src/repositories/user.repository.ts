@@ -1,4 +1,3 @@
-import { User } from "@prisma/client";
 import { prismaConnection } from "../config/prisma.client";
 import { RequestUserDto } from "../dtos/user/request-user-dto";
 
@@ -21,10 +20,19 @@ export class UserRepository {
         })
     }
 
-    async findByUserNickName(nickName: string) {
+    async findByNickName(userNickName: string) {
         return prismaConnection.user.findUnique({
             where: {
-                userNickName: nickName
+                userNickName: userNickName
+            }
+        })
+    }
+
+
+    async findById(id: string) {
+        return prismaConnection.user.findUnique({
+            where: {
+                userId: id
             }
         })
     }

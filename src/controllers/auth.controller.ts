@@ -1,7 +1,7 @@
+import { NextFunction, Response } from 'express';
 import { LoginRequest } from "../interfaces";
 import { AuthService } from "../services";
 import { HTTPResponse } from '../utils';
-import { Response, NextFunction } from 'express'
 
 export class AuthController {
     constructor(

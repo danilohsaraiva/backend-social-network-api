@@ -17,14 +17,14 @@ export class UserService {
      * @param dto - Dados necessários para criação do usuário
      * @returns Usuário criado no formato de domínio (User)
      */
-    public async createUser(user: RequestUserDto): Promise<ResponseUserDto> {
+    public async create(user: RequestUserDto): Promise<ResponseUserDto> {
 
-        const validateUserCredentials = await this.userRepository.findByUserNickName(user.userNickName);
+        const validateUserCredentials = await this.userRepository.findByNickName(user.userNickName);
 
         if (validateUserCredentials) {
             throw new HTTPError(
                 409,
-                "User already exist"
+                "User already exists"
             )
         }
 
@@ -43,6 +43,34 @@ export class UserService {
             imageUrl: user.imageUrl ?? null,
             isActive: isActive
         });
+
+        return this.mapToModel(result);
+    }
+
+    public async findByNickName(userNickName: string): Promise<ResponseUserDto | null> {
+        if (!userNickName) {
+            throw new HTTPError(401, "userNickName not found");
+        }
+
+        const result: User | null = await this.userRepository.findByNickName(userNickName);
+
+        if (!result) {
+            throw new HTTPError(404, "User not found");
+        }
+
+        return this.mapToModel(result);
+    }
+
+    public async findById(id: string): Promise<ResponseUserDto> {
+        if (!id) {
+            throw new HTTPError(401, "id not found");
+        }
+
+        const result: User | null = await this.userRepository.findById(id);
+
+        if (!result) {
+            throw new HTTPError(404, "User not found");
+        }
 
         return this.mapToModel(result);
     }
