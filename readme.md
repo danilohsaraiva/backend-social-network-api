@@ -191,11 +191,16 @@ Este repositório é um template no GitHub. Para usá-lo:
 
 ### 🧩 UML de Classes
 <p align="center">
-  <img src="./src/docs/images/uml-classe.png" alt="UML de Classes" width="800"/>
+  <img src="./src/docs/images/uml-classes-user-tweet.png" alt="UML de Classes" width="800"/>
 
   #### &
 <p align="center">
-  <img src="./src/docs/images/n-n-uml-classes.png" alt="UML de Classes" width="800"/>
+  <img src="./src/docs/images/uml-class-relation-follow.png" alt="UML de Classes" width="800"/>
+</p>
+
+  #### &
+<p align="center">
+  <img src="./src/docs/images/uml-classes-like-relationship.png" alt="UML de Classes" width="800"/>
 </p>
 
 ---
@@ -223,8 +228,8 @@ Acompanhamento dos endpoints da aplicação
 | 4  | Criar tweet                                  | POST   | ✅ Concluído     | 🔐 JWT                                                        |
 | 5  | Criar resposta (reply) de tweet              | POST   | ⏳ Pendente      | 🔐 JWT                                                        |
 | 6  | Obter feed do usuário (tweets + seguindo)    | GET    | 🚧 Em andamento | 🔐 JWT                                                           |
-| 7  | Curtir tweet                                 | PATCH  | 🚧 Em andamento | 🔐 JWT                                                        |
-| 8  | Remover curtida de tweet                     | PATCH  | ⏳ Pendente      | 🔐 JWT                                                        |
+| 7  | Curtir tweet                                 | POST  | 🚧 Em andamento | 🔐 JWT                                                        |
+| 8  | Remover curtida de tweet                     |   | ⏳ Pendente      | 🔐 JWT                                                        |
 | 9  | Seguir usuário                               | POST   | ✅ Concluído | 🔐 JWT                                                        |
 | 10 | Deixar de seguir usuário                     | DELETE |✅ Concluído | 🔐 JWT                                                        |
 
