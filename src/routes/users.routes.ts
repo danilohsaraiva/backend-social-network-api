@@ -351,6 +351,83 @@ export class UsersRoutes {
             userController.follow
         )
 
+        /**
+         * @swagger
+         * /users/unfollow/{id}:
+         *   delete:
+         *     summary: Unfollow a user
+         *     description: Allows the authenticated user to unfollow another user by ID
+         *     tags:
+         *       - Users
+         *
+         *     security:
+         *       - bearerAuth: []
+         *
+         *     parameters:
+         *       - in: path
+         *         name: id
+         *         required: true
+         *         schema:
+         *           type: string
+         *           format: uuid
+         *         description: ID of the user to be unfollowed
+         *         example: "550e8400-e29b-41d4-a716-446655440000"
+         *
+         *     responses:
+         *       200:
+         *         description: User unfollowed successfully
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: true
+         *               message: "Unfollow successfully"
+         *               data: null
+         *               details: null
+         *
+         *       400:
+         *         description: Validation error
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: false
+         *               message: "User id must be a valid UUID"
+         *               data: null
+         *               details:
+         *                 - type: "validation"
+         *                   field: "id"
+         *                   description: "User id must be a valid UUID"
+         *                   location: "params"
+         *
+         *       401:
+         *         description: Unauthorized (missing or invalid token)
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: false
+         *               message: "Token is missing or invalid"
+         *               data: null
+         *               details: null
+         *
+         *       404:
+         *         description: User not found
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: false
+         *               message: "User not found"
+         *               data: null
+         *               details: null
+         */
+        router.delete("/users/unfollow/:id",
+            checkAuth,
+            dataValidation([
+                param('id')
+                    .notEmpty().withMessage('User id is required')
+                    .isUUID().withMessage('User id must be a valid UUID'),
+            ]),
+            userController.unfollow
+        )
+
         return router;
     }
 }

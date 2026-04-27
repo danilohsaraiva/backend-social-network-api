@@ -61,18 +61,41 @@ export class UserController {
     public follow = async (req: Request, res: Response, next: NextFunction) => {
         try {
 
-            const id = req.params.id as string;
+            const idToFollow = req.params.id as string;
 
 
             const userLoggedId = req.user!.userId;
 
-            const isFollow = await this.userService.follow(id, userLoggedId);
+            const isFollow = await this.userService.follow(userLoggedId, idToFollow);
 
             HTTPResponse({
                 res,
                 statusCode: 200,
                 message: "Follow Sucessfully",
                 data: isFollow
+            })
+
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    public unfollow = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+
+            const id = req.params.id as string;
+
+
+            const userLoggedId = req.user!.userId;
+
+            const result = await this.userService.unfollow(id, userLoggedId);
+
+
+            HTTPResponse({
+                res,
+                statusCode: 200,
+                message: "Deleted Sucessfully",
+                data: null
             })
 
         } catch (error) {

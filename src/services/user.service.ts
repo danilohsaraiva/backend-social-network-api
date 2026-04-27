@@ -73,6 +73,18 @@ export class UserService {
         return this.mapToModel(result);
     }
 
+    /**
+     * Creates a follow relationship between the authenticated user and another user.
+     *
+     * This method first validates if the target user exists.
+     * If the user exists, it creates a follow relationship in the database.
+     *
+     * @param loggedUserId - ID of the authenticated user (follower)
+     * @param followinUserId - ID of the user to be followed
+     * @throws HTTPError 404 - If the target user does not exist
+     * @throws HTTPError 500 - If the follow creation fails unexpectedly
+     * @returns The created follow relationship
+     */
     public async follow(loggedUserId: string, followinUserId: string): Promise<Follow> {
 
         const validateUser: ResponseUserDto | null = await this.findById(followinUserId);
@@ -85,6 +97,36 @@ export class UserService {
 
         if (!result) {
             throw new HTTPError(500, "Internal server error");
+        }
+
+        return result;
+    }
+
+    /**
+     * Removes a follow relationship between the authenticated user and another user (unfollow).
+     *
+     * This method first validates if the target user exists.
+     * Then it attempts to remove the follow relationship from the database.
+     * If no relationship is found, a 404 error is thrown.
+     *
+     * @param loggedUserId - ID of the authenticated user (follower)
+     * @param followinUserId - ID of the user to unfollow
+     * @throws HTTPError 404 - If the target user does not exist
+     * @throws HTTPError 404 - If no follow relationship exists between the users
+     * @returns The result of the delete operation (number of deleted records)
+     */
+    public async unfollow(loggedUserId: string, followinUserId: string) {
+
+        const validateUser: ResponseUserDto | null = await this.findById(followinUserId);
+
+        if (!validateUser) {
+            throw new HTTPError(404, "User not found");
+        }
+
+        const result = await this.followRespository.delete(loggedUserId, followinUserId);
+
+        if (result.count === 0) {
+            throw new HTTPError(404, "Follow relationship not found");
         }
 
         return result;
