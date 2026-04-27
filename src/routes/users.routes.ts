@@ -1,99 +1,99 @@
 import express from 'express';
 import { body, param } from 'express-validator';
+import { tweetController } from '../containers';
 import { userController } from '../containers/user.container';
 import { checkAuth, dataValidation } from '../middlewares';
-import { tweetController } from '../containers';
 
 export class UsersRoutes {
     public static bind() {
         const router = express.Router();
 
         /**
-        * @swagger
-        * /users:
-        *   post:
-        *     summary: Create a new user
-        *     description: Creates a user based on the provided data
-        *     tags:
-        *       - Users
-        * 
-        *     requestBody:
-        *       required: true
-        *       content:
-        *         application/json:
-        *           schema:
-        *             type: object
-        *             required:
-        *               - userName
-        *               - userNickName
-        *               - password
-        *             properties:
-        *               userName:
-        *                 type: string
-        *                 example: "Danilo Saraiva"
-        *               userNickName:
-        *                 type: string
-        *                 example: "danilo.dev"
-        *               password:
-        *                 type: string
-        *                 example: "123456"
-        *               imageUrl:
-        *                 type: string
-        *                 example: "https://minha-imagem.com/avatar.png"
-        *               isActive:
-        *                 type: boolean
-        *                 example: true
-        * 
-        *     responses:
-        *       201:
-        *         description: User created successfully
-        *         content:
-        *           application/json:
-        *             example:
-        *               success: true
-        *               message: "User created successfully"
-        *               data:
-        *                 id: "550e8400-e29b-41d4-a716-446655440000"
-        *                 userName: "Danilo Saraiva"
-        *                 userNickName: "danilo.dev"
-        *                 imageUrl: "https://minha-imagem.com/avatar.png"
-        *                 isActive: true
-        *               details: null
-        * 
-        *       400:
-        *         description: Validation error
-        *         content:
-        *           application/json:
-        *             example:
-        *               success: false
-        *               message: "Validation error"
-        *               data: null
-        *               details:
-        *                 - type: "validation"
-        *                   field: "password"
-        *                   description: "Password must be at least 6 characters long"
-        *                   location: "body"
-        * 
-        *       409:
-        *         description: User already exists
-        *         content:
-        *           application/json:
-        *             example:
-        *               success: false
-        *               message: "User already exists"
-        *               data: null
-        *               details: null
-        * 
-        *       500:
-        *         description: Internal server error
-        *         content:
-        *           application/json:
-        *             example:
-        *               success: false
-        *               message: "Internal server error"
-        *               data: null
-        *               details: null
-        */
+         * @swagger
+         * /users:
+         *   post:
+         *     summary: Create a new user
+         *     description: Creates a user based on the provided data
+         *     tags:
+         *       - Users
+         *
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             type: object
+         *             required:
+         *               - userName
+         *               - userNickName
+         *               - password
+         *             properties:
+         *               userName:
+         *                 type: string
+         *                 example: "Danilo Saraiva"
+         *               userNickName:
+         *                 type: string
+         *                 example: "danilo.dev"
+         *               password:
+         *                 type: string
+         *                 example: "123456"
+         *               imageUrl:
+         *                 type: string
+         *                 example: "https://minha-imagem.com/avatar.png"
+         *               isActive:
+         *                 type: boolean
+         *                 example: true
+         *
+         *     responses:
+         *       201:
+         *         description: User created successfully
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: true
+         *               message: "User created successfully"
+         *               data:
+         *                 id: "550e8400-e29b-41d4-a716-446655440000"
+         *                 userName: "Danilo Saraiva"
+         *                 userNickName: "danilo.dev"
+         *                 imageUrl: "https://minha-imagem.com/avatar.png"
+         *                 isActive: true
+         *               details: null
+         *
+         *       400:
+         *         description: Validation error
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: false
+         *               message: "Validation error"
+         *               data: null
+         *               details:
+         *                 - type: "validation"
+         *                   field: "password"
+         *                   description: "Password must be at least 6 characters long"
+         *                   location: "body"
+         *
+         *       409:
+         *         description: User already exists
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: false
+         *               message: "User already exists"
+         *               data: null
+         *               details: null
+         *
+         *       500:
+         *         description: Internal server error
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: false
+         *               message: "Internal server error"
+         *               data: null
+         *               details: null
+         */
         router.post("/users",
             dataValidation([
                 body('userName')
@@ -118,6 +118,7 @@ export class UsersRoutes {
             ]),
             userController.create
         )
+
         /**
         * @swagger
         * /users/{id}:
@@ -198,9 +199,156 @@ export class UsersRoutes {
             ]),
             userController.findById
         )
-        router.post("users/tweet",
+
+        /**
+         * @swagger
+         * /users/tweet:
+         *   post:
+         *     summary: Create a new tweet
+         *     description: Creates a tweet for the authenticated user. It can be a normal tweet or a reply to another tweet.
+         *     tags:
+         *       - Users
+         *     security:
+         *       - bearerAuth: []
+         *
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             type: object
+         *             required:
+         *               - content
+         *             properties:
+         *               content:
+         *                 type: string
+         *                 description: Tweet content (1 to 280 characters)
+         *                 example: "This is my first tweet!"
+         *               parentId:
+         *                 type: string
+         *                 format: uuid
+         *                 nullable: true
+         *                 description: ID of the parent tweet (used for replies or retweets)
+         *                 example: "550e8400-e29b-41d4-a716-446655440000"
+         *
+         *     responses:
+         *       201:
+         *         description: Tweet created successfully
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: true
+         *               message: "Tweet created successfully"
+         *               data:
+         *                 tweetId: "uuid"
+         *                 content: "This is my first tweet!"
+         *                 parentId: null
+         *                 createdAt: "2026-04-26T12:00:00.000Z"
+         *                 updatedAt: "2026-04-26T12:00:00.000Z"
+         *                 author:
+         *                   userId: "uuid"
+         *                   userName: "Danilo"
+         *                   userNickName: "danilo.dev"
+         *                   imageUrl: "https://example.com/avatar.png"
+         *
+         *       400:
+         *         description: Validation error
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: false
+         *               message: "Content is required"
+         *
+         *       401:
+         *         description: Unauthorized (missing or invalid JWT token)
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: false
+         *               message: "Token is missing or invalid"
+         */
+        router.post("/users/tweet",
             checkAuth,
+            dataValidation([
+                body("content")
+                    .notEmpty().withMessage("Content is required")
+                    .isString().withMessage("Content must be a string")
+                    .isLength({ min: 1, max: 280 }).withMessage("Content must be between 1 and 280 characters")
+                    .trim(),
+
+                body("parentId")
+                    .optional()
+                    .isUUID().withMessage("parentId must be a valid UUID")
+            ]),
             tweetController.create
+        )
+
+        /**
+         * @swagger
+         * /users/follow/{id}:
+         *   post:
+         *     summary: Follow a user
+         *     description: Allows the authenticated user to follow another user by ID.
+         *     tags:
+         *       - Users
+         *     security:
+         *       - bearerAuth: []
+         *
+         *     parameters:
+         *       - in: path
+         *         name: id
+         *         required: true
+         *         schema:
+         *           type: string
+         *           format: uuid
+         *         description: ID of the user to be followed
+         *         example: "550e8400-e29b-41d4-a716-446655440000"
+         *
+         *     responses:
+         *       200:
+         *         description: User followed successfully
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: true
+         *               message: "Follow successfully"
+         *               data:
+         *                 followerId: "uuid"
+         *                 followingId: "uuid"
+         *                 createdAt: "2026-04-26T12:00:00.000Z"
+         *
+         *       400:
+         *         description: Validation error
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: false
+         *               message: "User id must be a valid UUID"
+         *
+         *       401:
+         *         description: Unauthorized (missing or invalid token)
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: false
+         *               message: "Token is missing or invalid"
+         *
+         *       409:
+         *         description: Conflict (already following user)
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: false
+         *               message: "You are already following this user"
+         */
+        router.post("/users/follow/:id",
+            checkAuth,
+            dataValidation([
+                param('id')
+                    .notEmpty().withMessage('User id is required')
+                    .isUUID().withMessage('User id must be a valid UUID'),
+            ]),
+            userController.follow
         )
 
         return router;

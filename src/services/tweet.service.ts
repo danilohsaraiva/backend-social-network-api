@@ -38,7 +38,6 @@ export class TweetService {
                 userName: entity.user.userName,
                 userNickName: entity.user.userNickName
             }
-
         }
     }
 }

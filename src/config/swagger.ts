@@ -51,6 +51,53 @@ export const swaggerSpec = swaggerJSDoc({
                         },
                     },
                 },
+                Tweet: {
+                    type: "object",
+                    required: ["tweetId", "content", "userFk", "createdAt", "updatedAt"],
+                    properties: {
+                        tweetId: {
+                            type: "string",
+                            format: "uuid",
+                            example: "550e8400-e29b-41d4-a716-446655440000",
+                        },
+                        content: {
+                            type: "string",
+                            example: "This is my first tweet!",
+                        },
+                        parentId: {
+                            type: "string",
+                            format: "uuid",
+                            nullable: true,
+                            example: "550e8400-e29b-41d4-a716-446655440000",
+                        },
+                        userFk: {
+                            type: "string",
+                            format: "uuid",
+                            example: "c2b7f2a0-8a1f-4c6d-9b2c-123456789abc",
+                        },
+                        createdAt: {
+                            type: "string",
+                            format: "date-time",
+                            example: "2026-04-26T12:00:00.000Z",
+                        },
+                        updatedAt: {
+                            type: "string",
+                            format: "date-time",
+                            example: "2026-04-26T12:00:00.000Z",
+                        },
+
+                        user: {
+                            $ref: "#/components/schemas/User",
+                        },
+
+                        replies: {
+                            type: "array",
+                            items: {
+                                $ref: "#/components/schemas/Tweet",
+                            },
+                        },
+                    },
+                },
             },
         },
     },

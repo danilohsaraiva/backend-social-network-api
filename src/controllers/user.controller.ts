@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
+import { CreateUserDto } from '../dtos/user/user-dto';
 import { UserService } from "../services";
 import { HTTPError, HTTPResponse } from "../utils";
-import { CreateUserDto } from '../dtos/user/user-dto';
 
 /**
  * Repository responsável por todas as operações de banco relacionadas a Usuário.
@@ -52,6 +52,28 @@ export class UserController {
                 message: "Sucess",
                 data: result
             });
+
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    public follow = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+
+            const id = req.params.id as string;
+
+
+            const userLoggedId = req.user!.userId;
+
+            const isFollow = await this.userService.follow(id, userLoggedId);
+
+            HTTPResponse({
+                res,
+                statusCode: 200,
+                message: "Follow Sucessfully",
+                data: isFollow
+            })
 
         } catch (error) {
             next(error)

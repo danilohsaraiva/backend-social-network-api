@@ -222,10 +222,10 @@ Acompanhamento dos endpoints da aplicação
 | 3  | Login de usuário                             | POST   | ✅ Concluído     | 🔐 JWT                                                        |
 | 4  | Criar tweet                                  | POST   | ✅ Concluído     | 🔐 JWT                                                        |
 | 5  | Criar resposta (reply) de tweet              | POST   | ⏳ Pendente      | 🔐 JWT                                                        |
-| 6  | Obter feed do usuário (tweets + seguindo)    | GET    | 🚧 Em andamento |                                                               |
-| 7  | Curtir tweet                                 | POST   | ⏳ Pendente      | 🔐 JWT                                                        |
-| 8  | Remover curtida de tweet                     | DELETE | ⏳ Pendente      | 🔐 JWT                                                        |
-| 9  | Seguir usuário                               | POST   | ⏳ Pendente      | 🔐 JWT                                                        |
+| 6  | Obter feed do usuário (tweets + seguindo)    | GET    | 🚧 Em andamento | 🔐 JWT                                                           |
+| 7  | Curtir tweet                                 | PATCH  | ⏳ Pendente      | 🔐 JWT                                                        |
+| 8  | Remover curtida de tweet                     | PATCH  | ⏳ Pendente      | 🔐 JWT                                                        |
+| 9  | Seguir usuário                               | POST   | 🚧 Em andamento | 🔐 JWT                                                        |
 | 10 | Deixar de seguir usuário                     | DELETE | ⏳ Pendente      | 🔐 JWT                                                        |
 
 

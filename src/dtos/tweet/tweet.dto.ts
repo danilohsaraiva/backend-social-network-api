@@ -1,6 +1,5 @@
 export interface CreateTweetDto {
     content: string;
-    fkUserId: string;
     parentId?: undefined;
 }
 export interface ReplyTweetDto {

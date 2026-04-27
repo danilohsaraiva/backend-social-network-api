@@ -1,15 +1,16 @@
-import { User } from '@prisma/client';
+import { Follow, User } from '@prisma/client';
 
-import { CryptoHashProvider } from '../providers';
-import { UserRepository } from '../repositories';
-import { HTTPError } from '../utils';
 import { CreateUserDto, ResponseUserDto } from '../dtos/user/user-dto';
+import { CryptoHashProvider } from '../providers';
+import { FollowRepository, UserRepository } from '../repositories';
+import { HTTPError } from '../utils';
 
 export class UserService {
 
     constructor(
         private userRepository: UserRepository,
-        private hashProvider: CryptoHashProvider
+        private hashProvider: CryptoHashProvider,
+        private followRespository: FollowRepository
     ) { }
     /**
      * Cria um novo usuário no sistema.
@@ -62,9 +63,6 @@ export class UserService {
     }
 
     public async findById(id: string): Promise<ResponseUserDto> {
-        if (!id) {
-            throw new HTTPError(401, "id not found");
-        }
 
         const result: User | null = await this.userRepository.findById(id);
 
@@ -73,6 +71,23 @@ export class UserService {
         }
 
         return this.mapToModel(result);
+    }
+
+    public async follow(loggedUserId: string, followinUserId: string): Promise<Follow> {
+
+        const validateUser: ResponseUserDto | null = await this.findById(followinUserId);
+
+        if (!validateUser) {
+            throw new HTTPError(404, "User not found");
+        }
+
+        const result: Follow = await this.followRespository.create(loggedUserId, followinUserId);
+
+        if (!result) {
+            throw new HTTPError(500, "Internal server error");
+        }
+
+        return result;
     }
 
     /**
