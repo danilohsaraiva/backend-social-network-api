@@ -144,37 +144,43 @@ Este repositório é um template no GitHub. Para usá-lo:
 ## 📊 Documentação do Sistema
 
 ## Requisitos
-<div style="display: flex; gap: 40px;">
+
+<div>
 
 <div>
 
 ### 📌 Requisitos Funcionais
 
-| ID   | Descrição                    |
-|------|-----------------------------|
-| RF01 | Cadastro de usuários        |
-| RF02 | Login de usuários           |
-| RF03 | Criar tarefa                |
-| RF04 | Listar tarefas              |
-| RF05 | Buscar tarefa por ID        |
-| RF06 | Atualizar tarefa            |
-| RF07 | Remover tarefa              |
+| ID   | Descrição | Status |
+|------|-----------|--------|
+| RF01 | Cadastro de usuários | ✅ |
+| RF02 | Login de usuários autenticado JWT | ✅ |
+| RF03 | Usuário pode Tweetar | ✅ |
+| RF04 | Usuário pode curtir tweets (seus e de outros usuários) |  |
+| RF05 | Usuário pode tweetar como resposta a tweets quaisquer |  |
+| RF06 | Tweet pode conter de 0 a N replies |  |
+| RF07 | Usuário pode seguir outros usuários | ✅ |
+| RF08 | Usuário não pode seguir a si mesmo |  |
+| RF09 | Usuário deve ter (id, nome, username, senha e imagem URL) | ✅ |
+| RF10 | Tweet deve ter (id, conteúdo) e pertencer a um usuário | ✅ |
+| RF11 | Deploy da aplicação (Render ou Vercel) |  |
 
 </div>
+
+---
 
 <div>
 
 ### ⚙️ Requisitos Não Funcionais
 
-| ID    | Descrição                          |
-|-------|------------------------------------|
-| RNF01 | Tempo de resposta < 2 segundos     |
-| RNF02 | Segurança com autenticação JWT     |
-| RNF03 | Escalabilidade                     |
-| RNF04 | Disponibilidade de 99,9%           |
-| RNF05 | Código de fácil manutenção         |
-| RNF06 | Portabilidade entre ambientes      |
-| RNF07 | Compatível com principais clientes |
+| ID    | Descrição | Status |
+|-------|-----------|--------|
+| RNF01 | Documentação com Swagger | ✅ |
+| RNF02 | Segurança com autenticação JWT | ✅ |
+| RNF03 | Escalabilidade |  |
+| RNF04 | Código de fácil manutenção | ✅ |
+| RNF05 | Portabilidade entre ambientes (Docker) | ✅ |
+
 
 </div>
 
@@ -191,16 +197,16 @@ Este repositório é um template no GitHub. Para usá-lo:
 
 ### 🧩 UML de Classes
 <p align="center">
-  <img src="./src/docs/images/uml-classes-user-tweet.png" alt="UML de Classes" width="800"/>
+  <img src="./src/docs/images/uml-user-tweet-relationship.png" alt="UML de Classes" width="800"/>
 
   #### &
 <p align="center">
-  <img src="./src/docs/images/uml-class-relation-follow.png" alt="UML de Classes" width="800"/>
+  <img src="./src/docs/images/uml-user-follow-relationship.png" alt="UML de Classes" width="800"/>
 </p>
 
   #### &
 <p align="center">
-  <img src="./src/docs/images/uml-classes-like-relationship.png" alt="UML de Classes" width="800"/>
+  <img src="./src/docs/images/uml-user-like-relationship.png" alt="UML de Classes" width="800"/>
 </p>
 
 ---
