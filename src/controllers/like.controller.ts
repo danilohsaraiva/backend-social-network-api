@@ -29,4 +29,27 @@ export class LikeController {
             next(error);
         }
     }
+
+    public unLike = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const currentTweetId = req.params.id;
+
+            if (Array.isArray(currentTweetId)) {
+                throw new HTTPError(400, "tweetId must not be an array");
+            }
+            const currentUserId = req.user?.userId as string;
+
+            const validateLike = await this.likeService.unLike(currentTweetId, currentUserId);
+
+            HTTPResponse({
+                res,
+                statusCode: 200,
+                message: "Like removed sucefully!",
+                data: validateLike
+            })
+        } catch (error) {
+            next(error)
+        }
+
+    }
 }

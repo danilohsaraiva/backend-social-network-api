@@ -222,21 +222,18 @@ Este repositório é um template no GitHub. Para usá-lo:
 
 Acompanhamento dos endpoints da aplicação
 
-# 📌 Progresso dos Endpoints da API
-
-| #  | Descrição do Endpoint                        | Método | Status          | Observações                                                   |
-| -- | -------------------------------------------- | ------ | --------------- | ------------------------------------------------------------- |
-| 1  | Criar novo usuário                           | POST   | ✅ Concluído     |                                                               |
-| 2  | Obter dados do usuário (tweets e seguidores) | GET    | 🚧 Em andamento | Necessário implementar lógica para trazer tweets e seguidores |
-| 3  | Login de usuário                             | POST   | ✅ Concluído     | 🔐 JWT                                                        |
-| 4  | Criar tweet                                  | POST   | ✅ Concluído     | 🔐 JWT                                                        |
-| 5  | Criar resposta (reply) de tweet              | POST   | ⏳ Pendente      | 🔐 JWT                                                        |
-| 6  | Obter feed do usuário (tweets + seguindo)    | GET    | 🚧 Em andamento | 🔐 JWT                                                           |
-| 7  | Curtir tweet                                 | POST  | 🚧 Em andamento | 🔐 JWT                                                        |
-| 8  | Remover curtida de tweet                     |   | ⏳ Pendente      | 🔐 JWT                                                        |
-| 9  | Seguir usuário                               | POST   | ✅ Concluído | 🔐 JWT                                                        |
-| 10 | Deixar de seguir usuário                     | DELETE |✅ Concluído | 🔐 JWT                                                        |
-
+| #  | Descrição do Endpoint                        | Método | Status           | Observações                                                   |
+|----|----------------------------------------------|--------|------------------|---------------------------------------------------------------|
+| 1  | Criar novo usuário                           | POST   | ✅ Concluído      |                                                               |
+| 2  | Obter dados do usuário (tweets e seguidores) | GET    | 🚧 Em andamento  | Necessário implementar lógica para trazer tweets e seguidores |
+| 3  | Login de usuário                             | POST   | ✅ Concluído      | 🔐 JWT                                                        |
+| 4  | Criar tweet                                  | POST   | ✅ Concluído      | 🔐 JWT                                                        |
+| 5  | Criar resposta (reply) de tweet              | POST   | ⏳ Pendente       | 🔐 JWT                                                        |
+| 6  | Obter feed do usuário (tweets + seguindo)    | GET    | 🚧 Em andamento  | 🔐 JWT                                                        |
+| 7  | Curtir tweet                                 | POST   | ✅ Concluído      | 🔐 JWT                                                        |
+| 8  | Remover curtida de tweet                     | DELETE | ✅ Concluído      | 🔐 JWT                                                        |
+| 9  | Seguir usuário                               | POST   | ✅ Concluído      | 🔐 JWT                                                        |
+| 10 | Deixar de seguir usuário                     | DELETE | ✅ Concluído      | 🔐 JWT                                                        |
 
 Legenda: 
 ⏳ Pendente 

@@ -201,15 +201,15 @@ export class UsersRoutes {
             userController.findById
         )
 
-
         /**
          * @swagger
-         * /users/follow/{id}:
+         * /users/{id}/follow:
          *   post:
          *     summary: Follow a user
-         *     description: Allows the authenticated user to follow another user by ID.
+         *     description: Allows the authenticated user to follow a specific user by ID
          *     tags:
          *       - Users
+         *
          *     security:
          *       - bearerAuth: []
          *
@@ -224,83 +224,17 @@ export class UsersRoutes {
          *         example: "550e8400-e29b-41d4-a716-446655440000"
          *
          *     responses:
-         *       200:
+         *       201:
          *         description: User followed successfully
          *         content:
          *           application/json:
          *             example:
          *               success: true
-         *               message: "Follow successfully"
+         *               message: "User followed successfully"
          *               data:
          *                 followerId: "uuid"
          *                 followingId: "uuid"
-         *                 createdAt: "2026-04-26T12:00:00.000Z"
-         *
-         *       400:
-         *         description: Validation error
-         *         content:
-         *           application/json:
-         *             example:
-         *               success: false
-         *               message: "User id must be a valid UUID"
-         *
-         *       401:
-         *         description: Unauthorized (missing or invalid token)
-         *         content:
-         *           application/json:
-         *             example:
-         *               success: false
-         *               message: "Token is missing or invalid"
-         *
-         *       409:
-         *         description: Conflict (already following user)
-         *         content:
-         *           application/json:
-         *             example:
-         *               success: false
-         *               message: "You are already following this user"
-         */
-        router.post("/users/:id/follow",
-            checkAuth,
-            dataValidation([
-                param('id')
-                    .notEmpty().withMessage('User id is required')
-                    .isUUID().withMessage('User id must be a valid UUID'),
-            ]),
-            userController.follow
-        )
-
-        /**
-         * @swagger
-         * /users/unfollow/{id}:
-         *   delete:
-         *     summary: Unfollow a user
-         *     description: Allows the authenticated user to unfollow another user by ID
-         *     tags:
-         *       - Users
-         *
-         *     security:
-         *       - bearerAuth: []
-         *
-         *     parameters:
-         *       - in: path
-         *         name: id
-         *         required: true
-         *         schema:
-         *           type: string
-         *           format: uuid
-         *         description: ID of the user to be unfollowed
-         *         example: "550e8400-e29b-41d4-a716-446655440000"
-         *
-         *     responses:
-         *       200:
-         *         description: User unfollowed successfully
-         *         content:
-         *           application/json:
-         *             example:
-         *               success: true
-         *               message: "Unfollow successfully"
-         *               data: null
+         *                 createdAt: "2026-04-27T12:00:00.000Z"
          *               details: null
          *
          *       400:
@@ -336,6 +270,116 @@ export class UsersRoutes {
          *               message: "User not found"
          *               data: null
          *               details: null
+         *
+         *       409:
+         *         description: Conflict (already following user)
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: false
+         *               message: "You are already following this user"
+         *               data: null
+         *               details: null
+         *
+         *       500:
+         *         description: Internal server error
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: false
+         *               message: "Internal server error"
+         *               data: null
+         *               details: null
+         */
+        router.post("/users/:id/follow",
+            checkAuth,
+            dataValidation([
+                param('id')
+                    .notEmpty().withMessage('User id is required')
+                    .isUUID().withMessage('User id must be a valid UUID'),
+            ]),
+            userController.follow
+        )
+
+        /**
+         * @swagger
+         * /users/{id}/unfollow:
+         *   delete:
+         *     summary: Unfollow a user
+         *     description: Allows the authenticated user to unfollow a specific user by ID
+         *     tags:
+         *       - Users
+         *
+         *     security:
+         *       - bearerAuth: []
+         *
+         *     parameters:
+         *       - in: path
+         *         name: id
+         *         required: true
+         *         schema:
+         *           type: string
+         *           format: uuid
+         *         description: ID of the user to unfollow
+         *         example: "550e8400-e29b-41d4-a716-446655440000"
+         *
+         *     responses:
+         *       200:
+         *         description: User unfollowed successfully
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: true
+         *               message: "User unfollowed successfully"
+         *               data:
+         *                 followerId: "uuid"
+         *                 followingId: "uuid"
+         *                 createdAt: "2026-04-27T12:00:00.000Z"
+         *               details: null
+         *
+         *       400:
+         *         description: Validation error
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: false
+         *               message: "User id must be a valid UUID"
+         *               data: null
+         *               details:
+         *                 - type: "validation"
+         *                   field: "id"
+         *                   description: "User id must be a valid UUID"
+         *                   location: "params"
+         *
+         *       401:
+         *         description: Unauthorized (missing or invalid token)
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: false
+         *               message: "Token is missing or invalid"
+         *               data: null
+         *               details: null
+         *
+         *       404:
+         *         description: Follow relationship not found
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: false
+         *               message: "Follow relationship not found"
+         *               data: null
+         *               details: null
+         *
+         *       500:
+         *         description: Internal server error
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: false
+         *               message: "Internal server error"
+         *               data: null
+         *               details: null
          */
         router.delete("/users/:id/unfollow",
             checkAuth,
@@ -346,7 +390,6 @@ export class UsersRoutes {
             ]),
             userController.unfollow
         )
-
 
         return router;
     }

@@ -4,10 +4,12 @@ import { body, param } from 'express-validator';
 import { TweetController } from '../controllers';
 import { tweetController } from '../containers';
 import { likeController } from '../containers/like.container';
+
 export class TweetRoutes {
     public static bind() {
 
         const router = express.Router();
+
         /**
          * @swagger
          * /tweet:
@@ -90,6 +92,7 @@ export class TweetRoutes {
             ]),
             tweetController.create
         )
+
         /**
          * @swagger
          * /tweets/{id}/likes:
@@ -179,6 +182,96 @@ export class TweetRoutes {
                     .isUUID().withMessage('User id must be a valid UUID'),
             ]),
             likeController.like
+        )
+
+        /**
+         * @swagger
+         * /tweets/{id}/likes:
+         *   delete:
+         *     summary: Unlike a tweet
+         *     description: Removes the authenticated user's like from a specific tweet
+         *     tags:
+         *       - Tweets
+         *
+         *     security:
+         *       - bearerAuth: []
+         *
+         *     parameters:
+         *       - in: path
+         *         name: id
+         *         required: true
+         *         schema:
+         *           type: string
+         *           format: uuid
+         *         description: ID of the tweet to remove the like from
+         *         example: "550e8400-e29b-41d4-a716-446655440000"
+         *
+         *     responses:
+         *       200:
+         *         description: Tweet unliked successfully
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: true
+         *               message: "Tweet unliked successfully"
+         *               data:
+         *                 likeId: "uuid"
+         *                 tweetId: "uuid"
+         *                 createdAt: "2026-04-27T12:00:00.000Z"
+         *               details: null
+         *
+         *       400:
+         *         description: Validation error
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: false
+         *               message: "Tweet id must be a valid UUID"
+         *               data: null
+         *               details:
+         *                 - type: "validation"
+         *                   field: "id"
+         *                   description: "Tweet id must be a valid UUID"
+         *                   location: "params"
+         *
+         *       401:
+         *         description: Unauthorized (missing or invalid token)
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: false
+         *               message: "Token is missing or invalid"
+         *               data: null
+         *               details: null
+         *
+         *       404:
+         *         description: Like not found
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: false
+         *               message: "Like not found"
+         *               data: null
+         *               details: null
+         *
+         *       500:
+         *         description: Internal server error
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: false
+         *               message: "Internal server error"
+         *               data: null
+         *               details: null
+         */
+        router.delete("/tweets/:id/likes",
+            checkAuth,
+            dataValidation([
+                param('id')
+                    .notEmpty().withMessage('Tweet id is required')
+                    .isUUID().withMessage('User id must be a valid UUID'),
+            ]),
+            likeController.unLike
         )
 
         return router;

@@ -1,5 +1,5 @@
 import { Like } from "@prisma/client";
-import { LikeResponseDto } from "../dtos";
+import { LikeResponseDto, UnLikeResponseDto } from "../dtos";
 import { LikeRepository } from "../repositories/like-respository";
 import { HTTPError } from "../utils";
 
@@ -14,7 +14,7 @@ export class LikeService {
         const existingLike = await this.likeRepository.findById(idTweet, idUser);
 
         if (existingLike) {
-            throw new HTTPError(400, "Like alwary exist!");
+            throw new HTTPError(400, "Like already exists");
         }
 
         const result = await this.likeRepository.create(idTweet, idUser);
@@ -22,14 +22,36 @@ export class LikeService {
         if (!result) {
             throw new HTTPError(400, "Failed to like tweet");
         }
-        return this.mapToModel(result);
+
+        return this.mapToLikeDto(result);
     }
 
-    public mapToModel(entity: Like): LikeResponseDto {
+    public async unLike(idTweet: string, idUser: string): Promise<UnLikeResponseDto> {
+
+        const existingLike = await this.likeRepository.findById(idTweet, idUser);
+
+        if (!existingLike) {
+            throw new HTTPError(404, "Like not found");
+        }
+
+        const result = await this.likeRepository.delete(idTweet, idUser);
+
+        return this.mapToUnLikeDto(result);
+    }
+
+    private mapToLikeDto(entity: Like): LikeResponseDto {
         return {
             likeId: entity.likeId,
             tweetId: entity.tweetId,
-            createAt: entity.createdAt
-        }
+            userId: entity.userId,
+            createdAt: entity.createdAt
+        };
+    }
+    private mapToUnLikeDto(entity: Like): UnLikeResponseDto {
+        return {
+            likeId: entity.likeId,
+            tweetId: entity.tweetId,
+            createdAt: entity.createdAt
+        };
     }
 }

@@ -1,11 +1,17 @@
-import { deepStrictEqual } from 'assert';
 export interface CreateLikeDto {
     userId: string
     tweetId: string
 }
 
 export interface LikeResponseDto {
+    userId: string
     likeId: string
     tweetId: string
-    createAt: Date
+    createdAt: Date
+}
+
+export interface UnLikeResponseDto {
+    likeId: string
+    tweetId: string
+    createdAt: Date
 }
