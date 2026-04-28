@@ -177,7 +177,7 @@ Este repositório é um template no GitHub. Para usá-lo:
 |-------|-----------|--------|
 | RNF01 | Documentação com Swagger | ✅ |
 | RNF02 | Segurança com autenticação JWT | ✅ |
-| RNF03 | Escalabilidade |  |
+| RNF03 | Escalabilidade | ✅|
 | RNF04 | Código de fácil manutenção | ✅ |
 | RNF05 | Portabilidade entre ambientes (Docker) | ✅ |
 
@@ -215,9 +215,7 @@ Este repositório é um template no GitHub. Para usá-lo:
 <p align="center">
   <img src="./src/docs/images/user-case.png" alt="Caso de Uso" width="800"/>
 </p>
-## Contribuição
 
-Contribuições são bem-vindas! Sinta-se à vontade para abrir issues e pull requests.
 ## Swagger 
 
 # 📌 API Endpoints Progress
@@ -246,6 +244,10 @@ Legenda:
 ✅ Concluído
 ❌ Bloqueado
 🔐 Middleware de autenticação JWT
+
+## Contribuição
+
+Contribuições são bem-vindas! Sinta-se à vontade para abrir issues e pull requests.
 ## Licença
 
 Este projeto está sob a licença ISC.

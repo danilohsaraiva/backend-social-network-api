@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { CreateUserDto } from '../dtos/user/user-dto';
-import { UserService } from "../services";
+import { TweetService, UserService } from "../services";
 import { HTTPError, HTTPResponse } from "../utils";
 
 /**
@@ -10,7 +10,9 @@ import { HTTPError, HTTPResponse } from "../utils";
  * evitando que a camada de Service dependa diretamente do ORM.
  */
 export class UserController {
-    constructor(private userService: UserService) { }
+    constructor(
+        private userService: UserService
+    ) { }
     /**
      * Cria um novo usuário no banco de dados.
      * 
@@ -18,7 +20,6 @@ export class UserController {
      * @returns Usuário criado retornado pelo Prisma
      */
     public create = async (req: Request, res: Response, next: NextFunction) => {
-
 
         try {
             const userData: CreateUserDto = req.body;
@@ -63,7 +64,6 @@ export class UserController {
 
             const idToFollow = req.params.id as string;
 
-
             const userLoggedId = req.user!.userId;
 
             const isFollow = await this.userService.follow(userLoggedId, idToFollow);
@@ -88,8 +88,7 @@ export class UserController {
 
             const userLoggedId = req.user!.userId;
 
-            const result = await this.userService.unfollow(id, userLoggedId);
-
+            await this.userService.unfollow(id, userLoggedId);
 
             HTTPResponse({
                 res,

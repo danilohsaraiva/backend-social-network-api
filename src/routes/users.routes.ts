@@ -1,6 +1,7 @@
 import express from 'express';
 import { body, param } from 'express-validator';
 import { tweetController } from '../containers';
+import { likeController } from '../containers/like.container';
 import { userController } from '../containers/user.container';
 import { checkAuth, dataValidation } from '../middlewares';
 
@@ -426,6 +427,96 @@ export class UsersRoutes {
                     .isUUID().withMessage('User id must be a valid UUID'),
             ]),
             userController.unfollow
+        )
+        /**
+         * @swagger
+         * /users/like/{id}:
+         *   post:
+         *     summary: Like a tweet
+         *     description: Allows the authenticated user to like a tweet by ID
+         *     tags:
+         *       - Users
+         *
+         *     security:
+         *       - bearerAuth: []
+         *
+         *     parameters:
+         *       - in: path
+         *         name: id
+         *         required: true
+         *         schema:
+         *           type: string
+         *           format: uuid
+         *         description: ID of the tweet to be liked
+         *         example: "550e8400-e29b-41d4-a716-446655440000"
+         *
+         *     responses:
+         *       201:
+         *         description: Tweet liked successfully
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: true
+         *               message: "Tweet liked successfully"
+         *               data:
+         *                 likeId: "uuid"
+         *                 userId: "uuid"
+         *                 tweetId: "uuid"
+         *                 createdAt: "2026-04-27T12:00:00.000Z"
+         *               details: null
+         *
+         *       400:
+         *         description: Validation error
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: false
+         *               message: "Tweet id must be a valid UUID"
+         *               data: null
+         *               details:
+         *                 - type: "validation"
+         *                   field: "id"
+         *                   description: "Tweet id must be a valid UUID"
+         *                   location: "params"
+         *
+         *       401:
+         *         description: Unauthorized (missing or invalid token)
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: false
+         *               message: "Token is missing or invalid"
+         *               data: null
+         *               details: null
+         *
+         *       404:
+         *         description: Tweet not found
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: false
+         *               message: "Tweet not found"
+         *               data: null
+         *               details: null
+         *
+         *       409:
+         *         description: Conflict (tweet already liked by user)
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: false
+         *               message: "You have already liked this tweet"
+         *               data: null
+         *               details: null
+         */
+        router.post("/users/like/:id",
+            checkAuth,
+            dataValidation([
+                param('id')
+                    .notEmpty().withMessage('Tweet id is required')
+                    .isUUID().withMessage('User id must be a valid UUID'),
+            ]),
+            likeController.like
         )
 
         return router;
