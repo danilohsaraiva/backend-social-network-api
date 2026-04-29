@@ -1,4 +1,4 @@
-import { Tweet } from "@prisma/client";
+import { Tweet, User } from "@prisma/client";
 
 export interface CreateUserDto {
     userName: string,
@@ -15,6 +15,9 @@ export interface ResponseUserDto {
     isActive: boolean
     createdAt: Date;
     updatedAt: Date;
+
+    tweets?: Tweet[],
+    followers?: User[]
 }
 
 export interface UserWithProfile {

@@ -3,6 +3,7 @@ import { CreateUserDto, ResponseUserDto, UserProfileResponseDto, UserWithProfile
 import { CryptoHashProvider } from '../providers';
 import { FollowRepository, UserRepository } from '../repositories';
 import { HTTPError } from '../utils';
+import { UserQueryRelations } from '../interfaces';
 
 export class UserService {
 
@@ -44,7 +45,7 @@ export class UserService {
             isActive: isActive
         });
 
-        return this.mapToModel(result);
+        return this.mapToResponseUserDto(result);
     }
 
     public async findByNickName(userNickName: string): Promise<ResponseUserDto | null> {
@@ -58,18 +59,18 @@ export class UserService {
             throw new HTTPError(404, "User not found");
         }
 
-        return this.mapToModel(result);
+        return this.mapToResponseUserDto(result);
     }
 
     public async findById(id: string): Promise<ResponseUserDto> {
 
-        const result: User | null = await this.userRepository.findById(id);
+        const result: UserQueryRelations | null = await this.userRepository.findById(id);
 
         if (!result) {
             throw new HTTPError(404, "User not found");
         }
 
-        return this.mapToModel(result);
+        return this.mapToResponseUserDto(result);
     }
 
     /**
@@ -147,14 +148,29 @@ export class UserService {
      * @param entity - Usuário vindo do Prisma
      * @returns Instância de User (modelo da aplicação)
      */
-    private mapToModel(entity: User): ResponseUserDto {
+    private mapToResponseUserDto(entity: {
+        userName: string,
+        userNickName: string,
+        imageUrl?: string | null,
+        isActive: boolean,
+        createdAt: Date,
+        updatedAt: Date
+
+        tweets?: any[];
+        followers?: any[];
+    }): ResponseUserDto {
         return {
             userName: entity.userName,
             userNickName: entity.userNickName,
             imageUrl: entity.imageUrl ?? null,
             isActive: entity.isActive,
             createdAt: entity.createdAt,
-            updatedAt: entity.updatedAt
+            updatedAt: entity.updatedAt,
+
+            tweets: entity.tweets ?? [],
+            followers: entity.followers
+                ? entity.followers.map(f => f.follower)
+                : []
         };
     }
 
@@ -165,7 +181,7 @@ export class UserService {
             imageUrl: entity.imageUrl,
             updatedAt: entity.updatedAt,
 
-            followers: entity.followers.map(f => f.follower),
+            following: entity.following.map(f => f.following),
             tweets: entity.tweets
         }
     }

@@ -229,7 +229,7 @@ Acompanhamento dos endpoints da aplicação
 | 3  | Login de usuário                             | POST   | ✅ Concluído      | 🔐 JWT                                                        |
 | 4  | Criar tweet                                  | POST   | ✅ Concluído      | 🔐 JWT                                                        |
 | 5  | Criar resposta (reply) de tweet              | POST   | ⏳ Pendente       | 🔐 JWT                                                        |
-| 6  | Obter feed do usuário (tweets + seguindo)    | GET    | 🚧 Em andamento  | 🔐 JWT                                                        |
+| 6  | Obter feed do usuário (tweets + seguindo)    | GET    | ✅ Concluído      | 🔐 JWT                                                        |
 | 7  | Curtir tweet                                 | POST   | ✅ Concluído      | 🔐 JWT                                                        |
 | 8  | Remover curtida de tweet                     | DELETE | ✅ Concluído      | 🔐 JWT                                                        |
 | 9  | Seguir usuário                               | POST   | ✅ Concluído      | 🔐 JWT                                                        |

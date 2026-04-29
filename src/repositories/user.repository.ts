@@ -1,5 +1,6 @@
 import { prismaConnection } from "../config/prisma.client";
 import { CreateUserDto } from "../dtos";
+import { UserQueryRelations } from "../interfaces";
 import { UserWithProfile } from './../dtos/user/user-dto';
 
 /**
@@ -30,12 +31,33 @@ export class UserRepository {
         })
     }
 
-    async findById(id: string) {
-        return prismaConnection.user.findUnique({
-            where: {
-                userId: id
+    async findById(id: string): Promise<UserQueryRelations | null> {
+        const currenteUserRelationship = await prismaConnection.user.findUnique({
+            where: { userId: id },
+            select: {
+                userId: true,
+                userName: true,
+                userNickName: true,
+                imageUrl: true,
+                isActive: true,
+                createdAt: true,
+                updatedAt: true,
+
+                tweets: true,
+
+                followers: {
+                    select: {
+                        follower: {
+                            select: {
+                                userId: true,
+                                userName: true
+                            }
+                        }
+                    }
+                }
             }
-        })
+        });
+        return currenteUserRelationship;
     }
 
     async findProfileById(id: string): Promise<UserWithProfile | null> {
