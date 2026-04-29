@@ -27,8 +27,8 @@ export interface UserWithProfile {
 
     tweets: Tweet[],
 
-    followers: {
-        follower: {
+    following: {
+        following: {
             userId: string,
             userName: string
         }
@@ -45,7 +45,7 @@ export interface UserProfileResponseDto {
         content: string
     }[],
 
-    followers: {
+    following: {
         userId: string,
         userName: string
     }[]

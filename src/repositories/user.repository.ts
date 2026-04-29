@@ -46,9 +46,9 @@ export class UserRepository {
             },
             include: {
                 tweets: true,
-                followers: {
+                following: {
                     include: {
-                        follower: true
+                        following: true
                     }
                 }
             }
