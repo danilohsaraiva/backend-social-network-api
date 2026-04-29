@@ -156,9 +156,9 @@ Este repositório é um template no GitHub. Para usá-lo:
 | RF01 | Cadastro de usuários | ✅ |
 | RF02 | Login de usuários autenticado JWT | ✅ |
 | RF03 | Usuário pode Tweetar | ✅ |
-| RF04 | Usuário pode curtir tweets (seus e de outros usuários) |  |
-| RF05 | Usuário pode tweetar como resposta a tweets quaisquer |  |
-| RF06 | Tweet pode conter de 0 a N replies |  |
+| RF04 | Usuário pode curtir tweets (seus e de outros usuários) | ✅ |
+| RF05 | Usuário pode tweetar como resposta a tweets quaisquer | ✅ |
+| RF06 | Tweet pode conter de 0 a N replies | ✅ |
 | RF07 | Usuário pode seguir outros usuários | ✅ |
 | RF08 | Usuário não pode seguir a si mesmo |  |
 | RF09 | Usuário deve ter (id, nome, username, senha e imagem URL) | ✅ |
@@ -225,7 +225,7 @@ Acompanhamento dos endpoints da aplicação
 | #  | Descrição do Endpoint                        | Método | Status           | Observações                                                   |
 |----|----------------------------------------------|--------|------------------|---------------------------------------------------------------|
 | 1  | Criar novo usuário                           | POST   | ✅ Concluído      |                                                               |
-| 2  | Obter dados do usuário (tweets e seguidores) | GET    | 🚧 Em andamento  | Necessário implementar lógica para trazer tweets e seguidores |
+| 2  | Obter dados do usuário (tweets e seguidores) | GET    | ✅ Concluído      | Necessário implementar lógica para trazer tweets e seguidores |
 | 3  | Login de usuário                             | POST   | ✅ Concluído      | 🔐 JWT                                                        |
 | 4  | Criar tweet                                  | POST   | ✅ Concluído      | 🔐 JWT                                                        |
 | 5  | Criar resposta (reply) de tweet              | POST   | ⏳ Pendente       | 🔐 JWT                                                        |

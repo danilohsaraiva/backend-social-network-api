@@ -1,9 +1,8 @@
 import express from 'express';
-import { checkAuth, dataValidation } from '../middlewares';
 import { body, param } from 'express-validator';
-import { TweetController } from '../controllers';
 import { tweetController } from '../containers';
 import { likeController } from '../containers/like.container';
+import { checkAuth, dataValidation } from '../middlewares';
 
 export class TweetRoutes {
     public static bind() {

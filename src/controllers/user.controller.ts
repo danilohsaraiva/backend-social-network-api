@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { CreateUserDto } from '../dtos/user/user-dto';
-import { TweetService, UserService } from "../services";
+import { UserService } from "../services";
 import { HTTPError, HTTPResponse } from "../utils";
 
 /**
@@ -97,6 +97,24 @@ export class UserController {
                 data: null
             })
 
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    public findProfileById = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+
+            const currentId = req.user?.userId as string;
+
+            const currentProfile = await this.userService.findProfileById(currentId);
+
+            return HTTPResponse({
+                res,
+                statusCode: 200,
+                message: `Profile retrieved successfully`,
+                data: currentProfile
+            })
         } catch (error) {
             next(error)
         }

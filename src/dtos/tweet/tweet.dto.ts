@@ -1,3 +1,10 @@
+export interface Tweet {
+    tweetId: string,
+    content: string,
+    createdAt: Date,
+    updateAt: Date
+}
+
 export interface CreateTweetDto {
     content: string;
     parentId?: undefined;

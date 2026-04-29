@@ -21,6 +21,7 @@ export class AuthService {
         }
 
         const isPasswordValid = await this.cryptoProvider.compare(data.password, currentUser.password);
+
         console.log(data.password);
         console.log(currentUser.password)
         console.log(isPasswordValid)

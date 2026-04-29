@@ -1,7 +1,5 @@
 import express from 'express';
 import { body, param } from 'express-validator';
-import { tweetController } from '../containers';
-import { likeController } from '../containers/like.container';
 import { userController } from '../containers/user.container';
 import { checkAuth, dataValidation } from '../middlewares';
 
@@ -389,6 +387,101 @@ export class UsersRoutes {
                     .isUUID().withMessage('User id must be a valid UUID'),
             ]),
             userController.unfollow
+        )
+
+        /**
+         * @swagger
+         * /users/{id}/profile:
+         *   get:
+         *     summary: Get user profile
+         *     description: Returns the profile of a user including their tweets and followers
+         *     tags:
+         *       - Users
+         *
+         *     security:
+         *       - bearerAuth: []
+         *
+         *     parameters:
+         *       - in: path
+         *         name: id
+         *         required: true
+         *         schema:
+         *           type: string
+         *           format: uuid
+         *         description: ID of the user
+         *         example: "550e8400-e29b-41d4-a716-446655440000"
+         *
+         *     responses:
+         *       200:
+         *         description: User profile retrieved successfully
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: true
+         *               message: "User profile retrieved successfully"
+         *               data:
+         *                 userId: "uuid"
+         *                 imageUrl: "https://example.com/avatar.png"
+         *                 tweets:
+         *                   - tweetId: "uuid"
+         *                     content: "My first tweet"
+         *                 followers:
+         *                   - userId: "uuid"
+         *                     userName: "John Doe"
+         *               details: null
+         *
+         *       400:
+         *         description: Validation error
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: false
+         *               message: "User id must be a valid UUID"
+         *               data: null
+         *               details:
+         *                 - type: "validation"
+         *                   field: "id"
+         *                   description: "User id must be a valid UUID"
+         *                   location: "params"
+         *
+         *       401:
+         *         description: Unauthorized (missing or invalid token)
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: false
+         *               message: "Token is missing or invalid"
+         *               data: null
+         *               details: null
+         *
+         *       404:
+         *         description: User not found
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: false
+         *               message: "User not found"
+         *               data: null
+         *               details: null
+         *
+         *       500:
+         *         description: Internal server error
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: false
+         *               message: "Internal server error"
+         *               data: null
+         *               details: null
+         */
+        router.get("/users/:id/profile",
+            checkAuth,
+            dataValidation([
+                param('id')
+                    .notEmpty().withMessage('User id is required')
+                    .isUUID().withMessage('User id must be a valid UUID'),
+            ]),
+            userController.findProfileById
         )
 
         return router;

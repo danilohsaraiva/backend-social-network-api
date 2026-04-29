@@ -1,6 +1,5 @@
 import { Follow, User } from '@prisma/client';
-
-import { CreateUserDto, ResponseUserDto } from '../dtos/user/user-dto';
+import { CreateUserDto, ResponseUserDto, UserProfileResponseDto, UserWithProfile } from '../dtos/user/user-dto';
 import { CryptoHashProvider } from '../providers';
 import { FollowRepository, UserRepository } from '../repositories';
 import { HTTPError } from '../utils';
@@ -132,6 +131,16 @@ export class UserService {
         return result;
     }
 
+    public async findProfileById(id: string) {
+        const currentUser = await this.userRepository.findProfileById(id);
+
+        if (!currentUser) {
+            throw new HTTPError(404, "User not found")
+        }
+
+        return this.mapProfileToModel(currentUser);
+    }
+
     /**
      * Converte a entidade retornada do banco (Prisma) para o modelo de domínio.
      * 
@@ -147,6 +156,18 @@ export class UserService {
             createdAt: entity.createdAt,
             updatedAt: entity.updatedAt
         };
+    }
+
+    private mapProfileToModel(entity: UserWithProfile): UserProfileResponseDto {
+        return {
+            userId: entity.userId,
+            userName: entity.userName,
+            imageUrl: entity.imageUrl,
+            updatedAt: entity.updatedAt,
+
+            followers: entity.followers.map(f => f.follower),
+            tweets: entity.tweets
+        }
     }
 }
 

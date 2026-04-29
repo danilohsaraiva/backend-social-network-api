@@ -1,5 +1,6 @@
 import { prismaConnection } from "../config/prisma.client";
 import { CreateUserDto } from "../dtos";
+import { UserWithProfile } from './../dtos/user/user-dto';
 
 /**
  * Repository responsável por todas as operações de banco relacionadas a Usuário.
@@ -25,9 +26,9 @@ export class UserRepository {
             where: {
                 userNickName: userNickName
             }
+
         })
     }
-
 
     async findById(id: string) {
         return prismaConnection.user.findUnique({
@@ -35,5 +36,24 @@ export class UserRepository {
                 userId: id
             }
         })
+    }
+
+    async findProfileById(id: string): Promise<UserWithProfile | null> {
+
+        const currentUser = await prismaConnection.user.findUnique({
+            where: {
+                userId: id
+            },
+            include: {
+                tweets: true,
+                followers: {
+                    include: {
+                        follower: true
+                    }
+                }
+            }
+        });
+
+        return currentUser;
     }
 }
