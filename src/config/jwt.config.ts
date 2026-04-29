@@ -5,8 +5,6 @@ import { SignOptions } from "jsonwebtoken";
 
 export const getJwtOptions = (): SignOptions => {
 
-
-    console.log('JWT_EXPIRES_IN:', process.env.JWT_EXPIRES_IN);
     const expiresIn = process.env.JWT_EXPIRES_IN;
 
     if (!expiresIn) {

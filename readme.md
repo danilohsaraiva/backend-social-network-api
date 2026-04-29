@@ -160,10 +160,10 @@ Este repositório é um template no GitHub. Para usá-lo:
 | RF05 | Usuário pode tweetar como resposta a tweets quaisquer | ✅ |
 | RF06 | Tweet pode conter de 0 a N replies | ✅ |
 | RF07 | Usuário pode seguir outros usuários | ✅ |
-| RF08 | Usuário não pode seguir a si mesmo |  |
+| RF08 | Usuário não pode seguir a si mesmo | ✅ |
 | RF09 | Usuário deve ter (id, nome, username, senha e imagem URL) | ✅ |
 | RF10 | Tweet deve ter (id, conteúdo) e pertencer a um usuário | ✅ |
-| RF11 | Deploy da aplicação (Render ou Vercel) |  |
+| RF11 | Deploy da aplicação (Render ou Vercel) | ✅ |
 
 </div>
 
@@ -222,18 +222,20 @@ Este repositório é um template no GitHub. Para usá-lo:
 
 Acompanhamento dos endpoints da aplicação
 
-| #  | Descrição do Endpoint                        | Método | Status           | Observações                                                   |
-|----|----------------------------------------------|--------|------------------|---------------------------------------------------------------|
-| 1  | Criar novo usuário                           | POST   | ✅ Concluído      |                                                               |
-| 2  | Obter dados do usuário (tweets e seguidores) | GET    | ✅ Concluído      | Necessário implementar lógica para trazer tweets e seguidores |
-| 3  | Login de usuário                             | POST   | ✅ Concluído      | 🔐 JWT                                                        |
-| 4  | Criar tweet                                  | POST   | ✅ Concluído      | 🔐 JWT                                                        |
-| 5  | Criar resposta (reply) de tweet              | POST   | ⏳ Pendente       | 🔐 JWT                                                        |
-| 6  | Obter feed do usuário (tweets + seguindo)    | GET    | ✅ Concluído      | 🔐 JWT                                                        |
-| 7  | Curtir tweet                                 | POST   | ✅ Concluído      | 🔐 JWT                                                        |
-| 8  | Remover curtida de tweet                     | DELETE | ✅ Concluído      | 🔐 JWT                                                        |
-| 9  | Seguir usuário                               | POST   | ✅ Concluído      | 🔐 JWT                                                        |
-| 10 | Deixar de seguir usuário                     | DELETE | ✅ Concluído      | 🔐 JWT                                                        |
+# 📌 Progresso dos Endpoints da API
+
+| #  | Descrição do Endpoint                        | Método | Status        | Observações                                                                 |
+|----|----------------------------------------------|--------|---------------|-----------------------------------------------------------------------------|
+| 1  | Criar novo usuário                           | POST   | ✅ Concluído   |                                                                             |
+| 2  | Obter dados do usuário (tweets e seguidores) | GET    | ✅ Concluído   |                                                                             |
+| 3  | Login de usuário                             | POST   | ✅ Concluído   | 🔐 JWT                                                                      |
+| 4  | Criar tweet                                  | POST   | ✅ Concluído   | 🔐 JWT                                                                      |
+| 5  | Criar resposta (reply) de tweet              | POST   | Pendente ❓   | 🔐 JWT <br> Rota abstraída para o endpoint `POST /tweets`                    |
+| 6  | Obter feed do usuário (tweets + seguindo)    | GET    | ✅ Concluído   | 🔐 JWT                                                                      |
+| 7  | Curtir tweet                                 | POST   | ✅ Concluído   | 🔐 JWT                                                                      |
+| 8  | Remover curtida de tweet                     | DELETE | ✅ Concluído   | 🔐 JWT                                                                      |
+| 9  | Seguir usuário                               | POST   | ✅ Concluído   | 🔐 JWT                                                                      |
+| 10 | Deixar de seguir usuário                     | DELETE | ✅ Concluído   | 🔐 JWT                                                                      |
 
 Legenda: 
 ⏳ Pendente 

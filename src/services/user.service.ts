@@ -1,9 +1,9 @@
 import { Follow, User } from '@prisma/client';
 import { CreateUserDto, ResponseUserDto, UserProfileResponseDto, UserWithProfile } from '../dtos/user/user-dto';
+import { UserQueryRelations } from '../interfaces';
 import { CryptoHashProvider } from '../providers';
 import { FollowRepository, UserRepository } from '../repositories';
 import { HTTPError } from '../utils';
-import { UserQueryRelations } from '../interfaces';
 
 export class UserService {
 
@@ -87,6 +87,9 @@ export class UserService {
      */
     public async follow(loggedUserId: string, followinUserId: string): Promise<Follow> {
 
+        if (loggedUserId === followinUserId) {
+            throw new HTTPError(400, "You cannot follow yourself");
+        }
         const validateUser: ResponseUserDto | null = await this.findById(followinUserId);
 
         if (!validateUser) {

@@ -1,4 +1,5 @@
 import { CreateTweetDto } from '../dtos/tweet/tweet.dto';
+import { HTTPError } from '../utils';
 import { ResponseTweetDto } from './../dtos/tweet/tweet.dto';
 import { TweetRepository } from './../repositories/tweet.repository';
 
@@ -21,6 +22,10 @@ export class TweetService {
     ) { }
 
     public async create(data: CreateTweetDto, userId: string): Promise<ResponseTweetDto> {
+
+        if (!data.content) {
+            throw new HTTPError(400, "Content is request")
+        }
 
         const result = await this.tweetRepository.create(data, userId);
 

@@ -7,8 +7,14 @@ export class TweetController {
     constructor(private tweetService: TweetService) { }
 
     public create = async (req: Request, res: Response, next: NextFunction) => {
+        let message = "Create tweet successfully";
         try {
+
             const curretTweet: CreateTweetDto = req.body;
+
+            if (curretTweet.parentId) {
+                message = "Replay tweet with sucessfully"
+            }
 
             if (!curretTweet) {
                 throw new HTTPError(400, "Necessary tweet");
@@ -24,7 +30,7 @@ export class TweetController {
             return HTTPResponse({
                 res,
                 statusCode: 200,
-                message: "Created",
+                message: message,
                 data: result
             });
 

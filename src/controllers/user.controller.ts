@@ -66,6 +66,9 @@ export class UserController {
 
             const userLoggedId = req.user!.userId;
 
+            if (idToFollow === userLoggedId) {
+                throw new HTTPError(400, "");
+            }
             const isFollow = await this.userService.follow(userLoggedId, idToFollow);
 
             HTTPResponse({
