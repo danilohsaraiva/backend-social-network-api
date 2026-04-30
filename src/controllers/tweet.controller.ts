@@ -12,12 +12,12 @@ export class TweetController {
 
             const curretTweet: CreateTweetDto = req.body;
 
-            if (curretTweet.parentId) {
-                message = "Replay tweet with sucessfully"
+            if (!curretTweet.content) {
+                throw new HTTPError(400, "Necessary content for tweet");
             }
 
-            if (!curretTweet) {
-                throw new HTTPError(400, "Necessary tweet");
+            if (curretTweet.parentId) {
+                message = "Replay tweet with sucessfully"
             }
 
             const userId = req.user!.userId;

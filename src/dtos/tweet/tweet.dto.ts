@@ -7,8 +7,9 @@ export interface Tweet {
 
 export interface CreateTweetDto {
     content: string;
-    parentId?: undefined;
+    parentId?: string | null;
 }
+
 export interface ReplyTweetDto {
     content: string;
     parentId: string;

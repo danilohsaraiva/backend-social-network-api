@@ -11,7 +11,7 @@ export class TweetRoutes {
 
         /**
          * @swagger
-         * /tweet:
+         * /tweets:
          *   post:
          *     summary: Create a new tweet
          *     description: Creates a tweet for the authenticated user. It can be a normal tweet or a reply to another tweet.
@@ -76,6 +76,21 @@ export class TweetRoutes {
          *               success: false
          *               message: "Token is missing or invalid"
          */
+        router.post("/tweets",
+            checkAuth,
+            dataValidation([
+                body("content")
+                    .notEmpty().withMessage("Content is required")
+                    .isString().withMessage("Content must be a string")
+                    .isLength({ min: 1, max: 280 }).withMessage("Content must be between 1 and 280 characters")
+                    .trim(),
+
+                body("parentId")
+                    .optional()
+                    .isUUID().withMessage("parentId must be a valid UUID")
+            ]),
+            tweetController.create
+        );
         router.post("/tweets",
             checkAuth,
             dataValidation([

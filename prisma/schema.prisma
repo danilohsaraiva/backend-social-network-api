@@ -1,71 +1,58 @@
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
-// Define your data models here
 model User {
-    userId       String   @id @default(uuid()) @map("id_user")
-    userName     String   @map("user_name")
-    userNickName String   @unique @map("user_nick_name")
-    password     String   @map("password")
-    imageUrl     String?  @map("image_url")
-    createdAt    DateTime @default(now()) @map("created_at")
-    updatedAt    DateTime @default(now()) @updatedAt @map("updated_at")
-    isActive     Boolean  @default(true) @map("is_active")
-
-    following Follow[] @relation("UserFollowing")
-    followers Follow[] @relation("UserFollowers")
-
-    tweets Tweet[]
-    likes  Like[]
+  userId       String   @id @default(uuid()) @map("id_user")
+  userName     String   @map("user_name")
+  userNickName String   @unique @map("user_nick_name")
+  password     String   @map("password")
+  imageUrl     String?  @map("image_url")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @default(now()) @updatedAt @map("updated_at")
+  isActive     Boolean  @default(true) @map("is_active")
+  following    Follow[] @relation("UserFollowing")
+  followers    Follow[] @relation("UserFollowers")
+  likes        Like[]
+  tweets       Tweet[]
 }
 
 model Follow {
-    followId String @id @default(uuid()) @map("id_follow")
+  followId    String   @id @default(uuid()) @map("id_follow")
+  followerFk  String   @map("fk_follower")
+  followingFk String   @map("fk_following")
+  createdAt   DateTime @default(now())
+  follower    User     @relation("UserFollowing", fields: [followerFk], references: [userId])
+  following   User     @relation("UserFollowers", fields: [followingFk], references: [userId])
 
-    followerFk  String @map("fk_follower")
-    followingFk String @map("fk_following")
-
-    follower  User @relation("UserFollowing", fields: [followerFk], references: [userId])
-    following User @relation("UserFollowers", fields: [followingFk], references: [userId])
-
-    createdAt DateTime @default(now())
-
-    @@unique([followerFk, followingFk])
+  @@unique([followerFk, followingFk])
 }
 
 model Tweet {
-    tweetId String @id @default(uuid()) @map("id_tweet")
-    content String @map("content")
-
-    parentId String? @map("fk_parent")
-
-    parent  Tweet?  @relation("TweetReplies", fields: [parentId], references: [tweetId])
-    replies Tweet[] @relation("TweetReplies")
-
-    userFk String @map("fk_user_id")
-    user   User   @relation(fields: [userFk], references: [userId])
-
-    createdAt DateTime @default(now()) @map("created_at")
-    updatedAt DateTime @default(now()) @map("updated_at")
-    likes     Like[]
+  tweetId   String   @id @default(uuid()) @map("id_tweet")
+  content   String   @map("content")
+  parentId  String?  @map("fk_parent")
+  userFk    String   @map("fk_user_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
+  likes     Like[]
+  parent    Tweet?   @relation("TweetReplies", fields: [parentId], references: [tweetId])
+  replies   Tweet[]  @relation("TweetReplies")
+  user      User     @relation(fields: [userFk], references: [userId])
 }
 
 model Like {
-    likeId String @id @default(uuid())
+  likeId    String   @id @default(uuid())
+  userId    String
+  tweetId   String
+  createdAt DateTime @default(now())
+  tweet     Tweet    @relation(fields: [tweetId], references: [tweetId])
+  user      User     @relation(fields: [userId], references: [userId])
 
-    userId  String
-    tweetId String
-
-    user  User  @relation(fields: [userId], references: [userId])
-    tweet Tweet @relation(fields: [tweetId], references: [tweetId])
-
-    createdAt DateTime @default(now())
-
-    @@unique([userId, tweetId])
+  @@unique([userId, tweetId])
 }

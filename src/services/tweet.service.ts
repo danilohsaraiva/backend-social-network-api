@@ -27,15 +27,26 @@ export class TweetService {
             throw new HTTPError(400, "Content is request")
         }
 
-        const result = await this.tweetRepository.create(data, userId);
 
-        return this.mapToModel(result);
+        if (data.parentId) {
+            if (await this.tweetRepository.validateId(data.parentId) !== true) {
+                throw new HTTPError(400, "Tweet ID reference does not exist in the database");
+            } else {
+                const replayTweet = await this.tweetRepository.create(data, userId);
+                return this.mapToModel(replayTweet);
+            }
+        }
+
+        const latestTweet = await this.tweetRepository.create(data, userId);
+
+        return this.mapToModel(latestTweet);
+
     }
 
     public mapToModel(entity: TweetWithUser): ResponseTweetDto {
         return {
             content: entity.content,
-            parentId: entity.parentId,
+            parentId: entity.parentId ?? null,
             createdAt: entity.createdAt,
             updatedAt: entity.updatedAt,
             author: {
