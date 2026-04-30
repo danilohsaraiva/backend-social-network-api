@@ -244,6 +244,23 @@ Legenda:
 ❌ Bloqueado
 🔐 Middleware de autenticação JWT
 
+## 🚀 Aplicação em Produção
+A aplicação já está disponível online e pode ser acessada pelo link abaixo:
+🔗 https://backend-social-network-api.onrender.com/
+O deploy foi realizado utilizando a plataforma Render, garantindo disponibilidade e acesso público à API.
+
+📄 Documentação da API
+A documentação completa da API está disponível via Swagger, permitindo testar os endpoints diretamente pelo navegador:
+🔗 https://backend-social-network-api.onrender.com/docs/
+
+💡 Observações
+
+
+A aplicação pode apresentar um pequeno tempo de resposta inicial devido ao cold start do ambiente gratuito do Render.
+
+
+Recomenda-se utilizar a documentação Swagger para explorar e validar os endpoints disponíveis.
+
 ## Contribuição
 
 Contribuições são bem-vindas! Sinta-se à vontade para abrir issues e pull requests.
