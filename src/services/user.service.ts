@@ -1,3 +1,4 @@
+import { TweetRepository } from './../repositories/tweet.repository';
 import { Follow, User } from '@prisma/client';
 import { CreateUserDto, ResponseUserDto, UserProfileResponseDto, UserWithProfile } from '../dtos/user/user-dto';
 import { UserQueryRelations } from '../interfaces';
@@ -10,7 +11,8 @@ export class UserService {
     constructor(
         private userRepository: UserRepository,
         private hashProvider: CryptoHashProvider,
-        private followRespository: FollowRepository
+        private followRespository: FollowRepository,
+        private tweetRepository: TweetRepository
     ) { }
     /**
      * Cria um novo usuário no sistema.
@@ -135,14 +137,14 @@ export class UserService {
         return result;
     }
 
-    public async findProfileById(id: string) {
-        const currentUser = await this.userRepository.findProfileById(id);
+    public async showTimeLineById(id: string) {
+        const currentTimeLine = await this.tweetRepository.showTimeLineById(id);
 
-        if (!currentUser) {
+        if (!currentTimeLine) {
             throw new HTTPError(404, "User not found")
         }
 
-        return this.mapProfileToModel(currentUser);
+        return currentTimeLine;
     }
 
     /**
@@ -175,18 +177,6 @@ export class UserService {
                 ? entity.followers.map(f => f.follower)
                 : []
         };
-    }
-
-    private mapProfileToModel(entity: UserWithProfile): UserProfileResponseDto {
-        return {
-            userId: entity.userId,
-            userName: entity.userName,
-            imageUrl: entity.imageUrl,
-            updatedAt: entity.updatedAt,
-
-            following: entity.following.map(f => f.following),
-            tweets: entity.tweets
-        }
     }
 }
 

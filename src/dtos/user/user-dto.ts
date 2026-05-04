@@ -33,7 +33,8 @@ export interface UserWithProfile {
     following: {
         following: {
             userId: string,
-            userName: string
+            userName: string,
+            tweets: Tweet[]
         }
     }[]
 }

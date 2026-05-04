@@ -26,3 +26,14 @@ export interface ResponseTweetDto {
     createdAt: Date,
     updatedAt: Date
 }
+
+export interface ReponseProfileDto {
+    content: string;
+    author: {
+        userId: string,
+        userName: string,
+        userNickName: string
+    },
+    createdAt: Date,
+    updatedAt: Date
+}

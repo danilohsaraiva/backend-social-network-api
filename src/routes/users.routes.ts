@@ -123,7 +123,7 @@ export class UsersRoutes {
         * /users/{id}:
         *   get:
         *     summary: Get user by ID
-        *     description: Returns user data based on the provided ID
+        *     description: Returns user data based on the provided ID (tweets and followers)
         *     tags:
         *       - Users
         * 
@@ -389,12 +389,13 @@ export class UsersRoutes {
             userController.unfollow
         )
 
+
         /**
          * @swagger
-         * /users/{id}/profile:
+         * /users/{id}/timeline:
          *   get:
-         *     summary: Get user profile
-         *     description: Returns the profile of a user including their tweets and followers
+         *     summary: Get user timeline
+         *     description: Retrieves a timeline including the user's tweets and tweets from users they follow.
          *     tags:
          *       - Users
          *
@@ -413,75 +414,42 @@ export class UsersRoutes {
          *
          *     responses:
          *       200:
-         *         description: User profile retrieved successfully
+         *         description: Timeline retrieved successfully
          *         content:
          *           application/json:
          *             example:
          *               success: true
-         *               message: "User profile retrieved successfully"
+         *               message: "Timeline retrieved successfully"
          *               data:
-         *                 userId: "uuid"
-         *                 imageUrl: "https://example.com/avatar.png"
-         *                 tweets:
-         *                   - tweetId: "uuid"
-         *                     content: "My first tweet"
-         *                 followers:
-         *                   - userId: "uuid"
+         *                 - tweetId: "uuid"
+         *                   content: "My first tweet"
+         *                   createdAt: "2026-05-04T00:00:00.000Z"
+         *                   user:
+         *                     userId: "uuid"
          *                     userName: "John Doe"
+         *                     imageUrl: "https://example.com/avatar.png"
          *               details: null
          *
          *       400:
          *         description: Validation error
-         *         content:
-         *           application/json:
-         *             example:
-         *               success: false
-         *               message: "User id must be a valid UUID"
-         *               data: null
-         *               details:
-         *                 - type: "validation"
-         *                   field: "id"
-         *                   description: "User id must be a valid UUID"
-         *                   location: "params"
          *
          *       401:
          *         description: Unauthorized (missing or invalid token)
-         *         content:
-         *           application/json:
-         *             example:
-         *               success: false
-         *               message: "Token is missing or invalid"
-         *               data: null
-         *               details: null
          *
          *       404:
          *         description: User not found
-         *         content:
-         *           application/json:
-         *             example:
-         *               success: false
-         *               message: "User not found"
-         *               data: null
-         *               details: null
          *
          *       500:
          *         description: Internal server error
-         *         content:
-         *           application/json:
-         *             example:
-         *               success: false
-         *               message: "Internal server error"
-         *               data: null
-         *               details: null
          */
-        router.get("/users/:id/profile",
+        router.get("/users/:id/timeline",
             checkAuth,
             dataValidation([
                 param('id')
                     .notEmpty().withMessage('User id is required')
                     .isUUID().withMessage('User id must be a valid UUID'),
             ]),
-            userController.findProfileById
+            userController.showTimeLineByID
         )
 
         return router;

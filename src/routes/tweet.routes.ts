@@ -14,7 +14,13 @@ export class TweetRoutes {
          * /tweets:
          *   post:
          *     summary: Create a new tweet
-         *     description: Creates a tweet for the authenticated user. It can be a normal tweet or a reply to another tweet.
+         *     description: |
+         *       Creates a tweet for the authenticated user.
+         *
+         *       If `parentId` is provided, the tweet will be created as a **reply** to the referenced tweet.
+         *       If `parentId` is not provided, it will be created as a **normal tweet**.
+         *
+         *       Replies are linked to the parent tweet and appear in conversation threads.
          *     tags:
          *       - Tweets
          *     security:

@@ -102,12 +102,12 @@ export class UserController {
         }
     }
 
-    public findProfileById = async (req: Request, res: Response, next: NextFunction) => {
+    public showTimeLineByID = async (req: Request, res: Response, next: NextFunction) => {
         try {
 
             const currentId = req.user?.userId as string;
 
-            const currentProfile = await this.userService.findProfileById(currentId);
+            const currentProfile = await this.userService.showTimeLineById(currentId);
 
             return HTTPResponse({
                 res,

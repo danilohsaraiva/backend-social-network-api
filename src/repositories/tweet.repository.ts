@@ -70,5 +70,47 @@ export class TweetRepository {
                 parentId: parentId
             }
         })
+    };
+
+    /**
+     * 
+     * @param userId 
+     * @returns List of tweet's user and tweets of your followings
+     */
+    async showTimeLineById(userId: string) {
+        const timeLineTweets = await prismaConnection.tweet.findMany({
+            where: {
+                parentId: null,
+                OR: [
+                    {
+                        userFk: userId
+                    },
+                    {
+                        user: {
+                            following: {
+                                some: {
+                                    followingFk: userId
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            orderBy: {
+                createdAt: 'desc'
+            },
+            include: {
+                user: {
+                    select: {
+                        userId: true,
+                        userName: true,
+                        userNickName: true,
+                        imageUrl: true
+                    }
+                }
+            }
+        });
+
+        return timeLineTweets;
     }
 }
