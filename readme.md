@@ -218,8 +218,6 @@ Este repositório é um template no GitHub. Para usá-lo:
 
 ## Swagger 
 
-# 📌 API Endpoints Progress
-
 Acompanhamento dos endpoints da aplicação
 
 # 📌 Progresso dos Endpoints da API

@@ -7,23 +7,27 @@ export class TweetController {
     constructor(private tweetService: TweetService) { }
 
     public create = async (req: Request, res: Response, next: NextFunction) => {
+
         let message = "Create tweet successfully";
         try {
 
-            const curretTweet: CreateTweetDto = req.body;
+            const currentTweet: CreateTweetDto = {
+                content: req.body.content,
+                parentId: req.body.parentId
+            };
 
-            if (!curretTweet.content) {
+            if (!currentTweet.content) {
                 throw new HTTPError(400, "Necessary content for tweet");
             }
 
-            if (curretTweet.parentId) {
-                message = "Replay tweet with sucessfully"
+            if (currentTweet.parentId) {
+                message = "Replay tweet with sucessfully";
             }
 
             const userId = req.user!.userId;
 
             const result: ResponseTweetDto = await this.tweetService.create(
-                curretTweet,
+                currentTweet,
                 userId
             );
 
@@ -34,6 +38,26 @@ export class TweetController {
                 data: result
             });
 
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    public findReplies = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const currentParentId = req.params.parentId;
+
+            if (Array.isArray(currentParentId)) {
+                throw new HTTPError(400, "parentId must not be an array");
+            }
+
+            const result = await this.tweetService.findReplyTweets(currentParentId);
+
+            return HTTPResponse({
+                res,
+                statusCode: 200,
+                data: result
+            })
         } catch (error) {
             next(error);
         }

@@ -21,15 +21,14 @@ export class TweetRepository {
         return validator !== null;
     }
 
-    public create(data: CreateTweetDto, currentUserId: string) {
+    public async create(data: CreateTweetDto, currentUserId: string) {
+
+
         return prismaConnection.tweet.create({
             data: {
                 content: data.content,
-                user: {
-                    connect: {
-                        userId: currentUserId
-                    }
-                }
+                parentId: data.parentId ?? null,
+                userFk: currentUserId,
             },
             select: {
                 tweetId: true,
@@ -49,7 +48,8 @@ export class TweetRepository {
         });
     }
 
-    public async findReplyTweet(id: string) {
+    public async findReplies(parentId: string) {
+
         return prismaConnection.tweet.findMany({
             select: {
                 tweetId: true,
@@ -67,9 +67,7 @@ export class TweetRepository {
                 }
             },
             where: {
-                parentId: {
-                    not: null
-                }
+                parentId: parentId
             }
         })
     }

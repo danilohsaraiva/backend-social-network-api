@@ -91,21 +91,80 @@ export class TweetRoutes {
             ]),
             tweetController.create
         );
-        router.post("/tweets",
+
+        /**
+         * @swagger
+         * /tweets/{parentId}/replies:
+         *   get:
+         *     summary: Get replies for a specific tweet
+         *     description: Returns a list of replies associated with the given parent tweet ID.
+         *     tags:
+         *       - Tweets
+         *     security:
+         *       - bearerAuth: []
+         *
+         *     parameters:
+         *       - name: parentId
+         *         in: path
+         *         required: true
+         *         description: The ID of the parent tweet
+         *         schema:
+         *           type: string
+         *           format: uuid
+         *
+         *     responses:
+         *       200:
+         *         description: Replies retrieved successfully
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: true
+         *               message: "Replies fetched successfully"
+         *               data:
+         *                 - tweetId: "uuid"
+         *                   content: "This is a reply"
+         *                   parentId: "550e8400-e29b-41d4-a716-446655440000"
+         *                   createdAt: "2026-04-26T12:00:00.000Z"
+         *                   updatedAt: "2026-04-26T12:00:00.000Z"
+         *                   author:
+         *                     userId: "uuid"
+         *                     userName: "Danilo"
+         *                     userNickName: "danilo.dev"
+         *                     imageUrl: "https://example.com/avatar.png"
+         *
+         *       400:
+         *         description: Validation error
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: false
+         *               message: "parentId must be a valid UUID"
+         *
+         *       401:
+         *         description: Unauthorized (missing or invalid JWT token)
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: false
+         *               message: "Token is missing or invalid"
+         *
+         *       404:
+         *         description: Parent tweet not found
+         *         content:
+         *           application/json:
+         *             example:
+         *               success: false
+         *               message: "Parent tweet not found"
+         */
+        router.get("/tweets/:parentId/replies",
             checkAuth,
             dataValidation([
-                body("content")
-                    .notEmpty().withMessage("Content is required")
-                    .isString().withMessage("Content must be a string")
-                    .isLength({ min: 1, max: 280 }).withMessage("Content must be between 1 and 280 characters")
-                    .trim(),
-
-                body("parentId")
-                    .optional()
-                    .isUUID().withMessage("parentId must be a valid UUID")
+                param("parentId")
+                    .notEmpty().withMessage('parentId parameter is required')
+                    .isUUID().withMessage('parentId must be a valid UUID')
             ]),
-            tweetController.create
-        )
+            tweetController.findReplies
+        );
 
         /**
          * @swagger
@@ -196,7 +255,7 @@ export class TweetRoutes {
                     .isUUID().withMessage('User id must be a valid UUID'),
             ]),
             likeController.like
-        )
+        );
 
         /**
          * @swagger

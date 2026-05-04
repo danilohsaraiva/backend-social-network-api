@@ -7,7 +7,7 @@ export interface Tweet {
 
 export interface CreateTweetDto {
     content: string;
-    parentId?: string | null;
+    parentId?: string;
 }
 
 export interface ReplyTweetDto {
