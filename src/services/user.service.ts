@@ -1,18 +1,16 @@
-import { TweetRepository } from './../repositories/tweet.repository';
-import { Follow, User } from '@prisma/client';
-import { CreateUserDto, ResponseUserDto, UserProfileResponseDto, UserWithProfile } from '../dtos/user/user-dto';
+import { User } from '@prisma/client';
+import { CreateUserDto, ResponseUserDto } from '../dtos/user/user-dto';
 import { UserQueryRelations } from '../interfaces';
 import { CryptoHashProvider } from '../providers';
-import { FollowRepository, UserRepository } from '../repositories';
+import { UserRepository } from '../repositories';
 import { HTTPError } from '../utils';
-import { FollowService } from './follow.service';
+import { TweetRepository } from './../repositories/tweet.repository';
 
 export class UserService {
 
     constructor(
         private userRepository: UserRepository,
         private hashProvider: CryptoHashProvider,
-        private followRespository: FollowRepository,
         private tweetRepository: TweetRepository
     ) { }
     /**
@@ -77,14 +75,14 @@ export class UserService {
     }
 
 
-    public async showTimeLineById(id: string) {
-        const currentTimeLine = await this.tweetRepository.showTimeLineById(id);
-
-        if (!currentTimeLine) {
-            throw new HTTPError(404, "User not found")
-        }
-
-        return currentTimeLine;
+    public async showTimeLineById(
+        id: string,
+        page: number,
+        limit: number
+    ) {
+        return this.tweetRepository.showTimeLineById(
+            id, page, limit
+        );
     }
 
     /**

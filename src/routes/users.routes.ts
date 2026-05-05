@@ -1,10 +1,11 @@
 import express from 'express';
-import { body, param } from 'express-validator';
+import { body, param, query } from 'express-validator';
 import { userController } from '../containers/user.container';
-import { checkAuth, dataValidation } from '../middlewares';
+import { checkAuth, dataValidation, paginationMiddleware } from '../middlewares';
 import { cacheMiddleware } from '../middlewares/cache.middleware';
 import { CACHE_KEYS, CacheService } from '../infra';
 import { cacheService } from '../containers';
+import { UserController } from '../controllers';
 
 export class UsersRoutes {
     public static bind() {
@@ -405,7 +406,7 @@ export class UsersRoutes {
          * @swagger
          * /users/{id}/timeline:
          *   get:
-         *     summary: Get user timeline
+         *     summary: Get user timeline (paginated & cached)
          *     description: |
          *       Retrieves a timeline including the user's tweets and tweets from users they follow.
          *
@@ -413,6 +414,10 @@ export class UsersRoutes {
          *       does not change every second and can be optimized using HTTP cache or Redis.
          * 
          *       ⏰ Cacheable endpoint (TTL: 60 seconds)
+         *
+         *       📄 Supports pagination using query params:
+         *       - page (default: 1)
+         *       - limit (default: 10, max: 20)
          *
          *     tags:
          *       - Users
@@ -432,6 +437,27 @@ export class UsersRoutes {
          *           format: uuid
          *         description: ID of the user
          *         example: "550e8400-e29b-41d4-a716-446655440000"
+         *
+         *       - in: query
+         *         name: page
+         *         required: false
+         *         description: Page number (starts from 1)
+         *         schema:
+         *           type: integer
+         *           minimum: 1
+         *           default: 1
+         *         example: 1
+         *
+         *       - in: query
+         *         name: limit
+         *         required: false
+         *         description: Number of items per page (max 20)
+         *         schema:
+         *           type: integer
+         *           minimum: 1
+         *           maximum: 20
+         *           default: 10
+         *         example: 10
          *
          *     responses:
          *       200:
@@ -469,8 +495,17 @@ export class UsersRoutes {
                 param('id')
                     .notEmpty().withMessage('User id is required')
                     .isUUID().withMessage('User id must be a valid UUID'),
+
+                query('page').toInt()
+                    .optional()
+                    .isInt({ min: 1 }).withMessage('Page must be >= 1'),
+
+                query('limit')
+                    .optional().toInt()
+                    .isInt({ min: 1, max: 20 }).withMessage('Limit must be between 1 and 20'),
             ]),
-            cacheMiddleware(cacheService, 60, (req) => CACHE_KEYS.TIMELINE(req.params.id as string)),
+            paginationMiddleware,
+            cacheMiddleware(cacheService, 60, (req) => CACHE_KEYS.TIMELINE(req.params.id as string, Number(req.query.page), Number(req.query.limit))),
             userController.showTimeLineByID
         )
 

@@ -6,6 +6,8 @@ import { CACHE_KEYS } from "../infra";
 
 export class TweetRepository {
 
+
+
     public async findById(id: string): Promise<Tweet | null> {
         return prismaConnection.tweet.findUnique({
             where: {
@@ -49,8 +51,8 @@ export class TweetRepository {
             }
         });
 
-        cacheService.del(CACHE_KEYS.TIMELINE(currentUserId));
-        cacheService.del(CACHE_KEYS.USER(currentUserId));
+        await cacheService.delPattern(`timeline:${currentUserId}:*`);
+        await cacheService.del(CACHE_KEYS.USER(currentUserId));
 
         return currentTweet;
     }
@@ -84,9 +86,11 @@ export class TweetRepository {
      * @param userId 
      * @returns List of tweet's user and tweets of your followings
      */
-    async showTimeLineById(userId: string) {
+    async showTimeLineById(userId: string, page: number, limit: number) {
 
         const timeLineTweets = await prismaConnection.tweet.findMany({
+            skip: (page - 1) * limit,
+            take: limit,
             where: {
                 parentId: null,
                 OR: [

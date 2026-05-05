@@ -25,6 +25,7 @@ export class FollowService {
      */
     public async follow(loggedUserId: string, followinUserId: string): Promise<Follow> {
 
+
         const validateUser = await this.userRepository.findById(followinUserId);
 
         if (!validateUser) {

@@ -19,8 +19,10 @@ export class FollowRepository {
             }
         });
 
-        cacheService.del(CACHE_KEYS.USER(followingUserId));
-        cacheService.del(CACHE_KEYS.USER(loggedUserId));
+        await cacheService.del(CACHE_KEYS.USER(followingUserId));
+        await cacheService.del(CACHE_KEYS.USER(loggedUserId));
+        await cacheService.del(`timeline:${followingUserId}:*`);
+        await cacheService.del(`timeline:${loggedUserId}:*`);
 
         return currentFollow;
     }
@@ -40,8 +42,8 @@ export class FollowRepository {
             }
         });
 
-        cacheService.del(CACHE_KEYS.USER(unfollowingUserId));
-        cacheService.del(CACHE_KEYS.USER(loggedUserId));
+        await cacheService.del(CACHE_KEYS.USER(unfollowingUserId));
+        await cacheService.del(CACHE_KEYS.USER(loggedUserId));
 
         return currentUnfollow;
     }

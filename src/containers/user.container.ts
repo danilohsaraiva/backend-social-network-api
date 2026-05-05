@@ -10,7 +10,7 @@ const userRepository = new UserRepository();
 const followRepository = new FollowRepository();
 const tweetRepository = new TweetRepository();
 const followService = new FollowService(userRepository, followRepository);
-const userService = new UserService(userRepository, cryptoHashProvider, followRepository, tweetRepository);
+const userService = new UserService(userRepository, cryptoHashProvider, tweetRepository);
 const userController = new UserController(userService, followService);
 
 export { userController };
