@@ -1,8 +1,16 @@
 import { Tweet } from "@prisma/client";
 import { prismaConnection } from "../config/prisma.client";
 import { CreateTweetDto } from "../dtos";
+import { redis } from "../config/redis.config";
+import { CacheService } from "./infra";
 
 export class TweetRepository {
+    constructor(
+        private cacheService: CacheService
+    ) {
+
+    }
+
     public async findById(id: string): Promise<Tweet | null> {
         return prismaConnection.tweet.findUnique({
             where: {
@@ -78,6 +86,12 @@ export class TweetRepository {
      * @returns List of tweet's user and tweets of your followings
      */
     async showTimeLineById(userId: string) {
+
+        const cacheKey = `timeline${userId}`;
+
+        const data = await this.cacheService.get(cacheKey);
+        if (data) return data;
+
         const timeLineTweets = await prismaConnection.tweet.findMany({
             where: {
                 parentId: null,
@@ -111,6 +125,11 @@ export class TweetRepository {
             }
         });
 
+        this.cacheService.set(
+            data,
+            timeLineTweets,
+            60
+        );
         return timeLineTweets;
     }
 }
