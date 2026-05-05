@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { CreateUserDto } from '../dtos/user/user-dto';
 import { UserService } from "../services";
 import { HTTPError, HTTPResponse } from "../utils";
+import { FollowService } from '../services/follow.service';
 
 /**
  * Repository responsável por todas as operações de banco relacionadas a Usuário.
@@ -11,7 +12,8 @@ import { HTTPError, HTTPResponse } from "../utils";
  */
 export class UserController {
     constructor(
-        private userService: UserService
+        private userService: UserService,
+        private followService: FollowService
     ) { }
     /**
      * Cria um novo usuário no banco de dados.
@@ -66,7 +68,7 @@ export class UserController {
 
             const userLoggedId = req.user!.userId;
 
-            const isFollow = await this.userService.follow(userLoggedId, idToFollow);
+            const isFollow = await this.followService.follow(userLoggedId, idToFollow);
 
             HTTPResponse({
                 res,

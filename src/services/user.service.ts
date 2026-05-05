@@ -5,6 +5,7 @@ import { UserQueryRelations } from '../interfaces';
 import { CryptoHashProvider } from '../providers';
 import { FollowRepository, UserRepository } from '../repositories';
 import { HTTPError } from '../utils';
+import { FollowService } from './follow.service';
 
 export class UserService {
 
@@ -73,38 +74,6 @@ export class UserService {
         }
 
         return this.mapToResponseUserDto(result);
-    }
-
-    /**
-     * Creates a follow relationship between the authenticated user and another user.
-     *
-     * This method first validates if the target user exists.
-     * If the user exists, it creates a follow relationship in the database.
-     *
-     * @param loggedUserId - ID of the authenticated user (follower)
-     * @param followinUserId - ID of the user to be followed
-     * @throws HTTPError 404 - If the target user does not exist
-     * @throws HTTPError 500 - If the follow creation fails unexpectedly
-     * @returns The created follow relationship
-     */
-    public async follow(loggedUserId: string, followinUserId: string): Promise<Follow> {
-
-        if (loggedUserId === followinUserId) {
-            throw new HTTPError(400, "You cannot follow yourself");
-        }
-        const validateUser: ResponseUserDto | null = await this.findById(followinUserId);
-
-        if (!validateUser) {
-            throw new HTTPError(404, "User not found");
-        }
-
-        const result: Follow = await this.followRespository.create(loggedUserId, followinUserId);
-
-        if (!result) {
-            throw new HTTPError(500, "Internal server error");
-        }
-
-        return result;
     }
 
     /**

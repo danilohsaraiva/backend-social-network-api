@@ -32,4 +32,15 @@ export class FollowRepository {
             }
         });
     }
+
+    async validateFollow(loggedUserId: string, followingUserId: string) {
+        return prismaConnection.follow.findUnique({
+            where: {
+                followerFk_followingFk: {
+                    followerFk: loggedUserId,
+                    followingFk: followingUserId
+                }
+            }
+        })
+    }
 }
