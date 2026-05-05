@@ -1,9 +1,9 @@
-import { CacheService } from './../repositories/infra/cache/cache.service';
 import { UserController } from '../controllers';
 import { CryptoHashProvider } from '../providers';
 import { TweetRepository, UserRepository } from '../repositories';
 import { UserService } from '../services';
 import { FollowRepository } from './../repositories/follow.repository';
+import { CacheService } from './../repositories/infra/cache/cache.service';
 import { FollowService } from './../services/follow.service';
 
 const cryptoHashProvider = new CryptoHashProvider();
