@@ -38,7 +38,7 @@ Este repositório é um template no GitHub. Para usá-lo:
    ```env
    PORT=3001
 
-   DATABASE_URL="postgresql://seu_usuario:sua_senha@localhost:5432/seu_banco?schema=public"
+   DATABASE_URL=postgresql://seu_usuario:sua_senha@localhost:5432/seu_banco?schema=public
 
    POSTGRES_USER=seu_usuario
    POSTGRES_PASSWORD=sua_senha
@@ -49,7 +49,7 @@ Este repositório é um template no GitHub. Para usá-lo:
    JWT_SECRET=ABC-S3CR3T
    JWT_EXPIRES_IN=1h
    
-   REDIS_URL"sua_url_redis"
+   REDIS_URL=sua_url_redis
    ```
 
 2. Ajuste as configurações no `prisma/schema.prisma` conforme necessário para o seu banco de dados.
@@ -65,7 +65,7 @@ Este repositório é um template no GitHub. Para usá-lo:
    docker compose up --build
    ```
 
-3. A API estará disponível em `http://localhost:3030`.
+3. A API estará disponível em `http://localhost:3001`.
 
 4. O Prisma Studio (interface gráfica para o banco) estará disponível em `http://localhost:5555`.
 
@@ -100,7 +100,7 @@ Este repositório é um template no GitHub. Para usá-lo:
    npm run dev
    ```
 
-6. A API estará disponível em `http://localhost:3030`.
+6. A API estará disponível em `http://localhost:3001`.
 
 ## Estrutura do Projeto
 
@@ -248,7 +248,7 @@ Acompanhamento dos endpoints da aplicação
 | 8  | Remover curtida de tweet                     | DELETE | ✅ Concluído   | 🔐 JWT                                                                      |
 | 9  | Seguir usuário                               | POST   | ✅ Concluído   | 🔐 JWT                                                                      |
 | 10 | Deixar de seguir usuário                     | DELETE | ✅ Concluído   | 🔐 JWT                                                                      |
-| 11 | EXTRA - Buscar replies de um tweet específico| GET | ✅ Concluído   | 🔐 JWT                                                                      |
+| 11 | **EXTRA** - Buscar replies de um tweet específico| GET | ✅ Concluído   | 🔐 JWT                                                                      |
 
 Legenda: 
 ⏳ Pendente 
