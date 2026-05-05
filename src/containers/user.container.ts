@@ -1,3 +1,4 @@
+import { CacheService } from './../repositories/infra/cache/cache.service';
 import { UserController } from '../controllers';
 import { CryptoHashProvider } from '../providers';
 import { TweetRepository, UserRepository } from '../repositories';
@@ -8,7 +9,8 @@ import { FollowService } from './../services/follow.service';
 const cryptoHashProvider = new CryptoHashProvider();
 const userRepository = new UserRepository();
 const followRepository = new FollowRepository();
-const tweetRepository = new TweetRepository();
+const cacheService = new CacheService();
+const tweetRepository = new TweetRepository(cacheService);
 const followService = new FollowService(userRepository, followRepository);
 const userService = new UserService(userRepository, cryptoHashProvider, followRepository, tweetRepository);
 const userController = new UserController(userService, followService);
