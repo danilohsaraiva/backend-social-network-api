@@ -93,7 +93,6 @@ export class TweetRepository {
 
         const data = await this.cacheService.get(cacheKey);
         if (data) {
-            console.log("🔥 CACHE HIT");
             return data;
         }
 
@@ -136,7 +135,6 @@ export class TweetRepository {
             60
         );
 
-        console.log("CACHE HIT");
         return timeLineTweets;
     }
 }

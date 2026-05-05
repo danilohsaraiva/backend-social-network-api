@@ -8,8 +8,8 @@ import { FollowService } from './../services/follow.service';
 
 const cryptoHashProvider = new CryptoHashProvider();
 const userRepository = new UserRepository();
-const followRepository = new FollowRepository();
 const cacheService = new CacheService();
+const followRepository = new FollowRepository(cacheService);
 const tweetRepository = new TweetRepository(cacheService);
 const followService = new FollowService(userRepository, followRepository);
 const userService = new UserService(userRepository, cryptoHashProvider, followRepository, tweetRepository);
