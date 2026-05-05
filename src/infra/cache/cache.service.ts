@@ -1,4 +1,4 @@
-import { redis } from "../../../config/redis.config";
+import { redis } from "../../config/redis.config";
 
 export class CacheService {
     async get(key: string) {

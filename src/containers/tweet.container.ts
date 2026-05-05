@@ -1,6 +1,6 @@
 import { TweetController } from "../controllers";
 import { TweetService } from "../services";
-import { CacheService } from './../repositories/infra/cache/cache.service';
+import { CacheService } from '../infra/cache/cache.service';
 import { TweetRepository } from './../repositories/tweet.repository';
 
 const cacheService = new CacheService();

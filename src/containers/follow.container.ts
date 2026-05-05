@@ -1,5 +1,5 @@
 import { UserRepository } from "../repositories";
-import { CacheService } from '../repositories/infra';
+import { CacheService } from '../infra';
 import { FollowService } from '../services/follow.service';
 import { FollowRepository } from './../repositories/follow.repository';
 

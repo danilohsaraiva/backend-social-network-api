@@ -1,5 +1,5 @@
 import { prismaConnection } from "../config/prisma.client";
-import { CACHE_KEYS, CacheService } from "./infra";
+import { CACHE_KEYS, CacheService } from "../infra";
 
 export class FollowRepository {
     constructor(private cacheService: CacheService) {

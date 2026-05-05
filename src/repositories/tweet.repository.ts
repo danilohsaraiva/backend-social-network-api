@@ -1,7 +1,7 @@
 import { Tweet } from "@prisma/client";
 import { prismaConnection } from "../config/prisma.client";
 import { CreateTweetDto } from "../dtos";
-import { CACHE_KEYS, CacheService } from "./infra";
+import { CACHE_KEYS, CacheService } from "../infra";
 
 export class TweetRepository {
     constructor(

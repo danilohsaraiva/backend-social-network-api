@@ -36,11 +36,20 @@ Este repositório é um template no GitHub. Para usá-lo:
 
 1. Crie um arquivo `.env` na raiz do projeto com base no arquivo `.env-example`:
    ```env
-   PORT=3030
+   PORT=3001
+
+   DATABASE_URL="postgresql://seu_usuario:sua_senha@localhost:5432/seu_banco?schema=public"
+
    POSTGRES_USER=seu_usuario
    POSTGRES_PASSWORD=sua_senha
    POSTGRES_DB=seu_banco
-   DATABASE_URL="postgresql://seu_usuario:sua_senha@localhost:5432/seu_banco?schema=public"
+
+   NODE_ENV=production
+
+   JWT_SECRET=ABC-S3CR3T
+   JWT_EXPIRES_IN=1h
+   
+   REDIS_URL"sua_url_redis"
    ```
 
 2. Ajuste as configurações no `prisma/schema.prisma` conforme necessário para o seu banco de dados.
@@ -99,15 +108,17 @@ Este repositório é um template no GitHub. Para usá-lo:
 ├── src/
 │   ├── config/          # Arquivos de configuração
 │   ├── containers/      # Padrão para abstrair inicializações
+│   ├── controllers/     # Camada que gere recursos HTTP
+│   ├── docs/            # Documentação e recursos auxiliares
 │   ├── dtos/            # Data Transfer Objects
-│   ├── containers/      # Padrão para abstrair inicializações 
-│   ├── containers/      # Padrão para abstrair inicializações
-│   ├── database/        # Configurações do banco de dados
-│   ├── dtos/            # Data Transfer Objects
+│   ├── infra/           # Integrações externas do sistema
+|   │   ├── cache/       # Implementação de cache com Redis
+│   ├── interfaces/      # Contratos de implementação
 │   ├── middlewares/     # Middlewares personalizados
 │   ├── interfaces/      # Interfaces personalizados
 │   ├── models/          # Modelos de dados
-│   ├── repositories/    # Acopla manilações DB
+│   ├── providers/       # Serviços utilitários e integrações (ex: hash, crypto)
+│   ├── repositories/    # Acopla a manilações do DB
 │   ├── routes/          # Definições de rotas
 │   ├── services/        # Lógica de negócio
 │   ├── utils/           # Utilitários
@@ -139,6 +150,8 @@ Este repositório é um template no GitHub. Para usá-lo:
 - **PostgreSQL**: Banco de dados relacional.
 - **Docker**: Containerização.
 - **ts-node-dev**: Ferramenta para desenvolvimento com TypeScript e autoreload.
+- **Render**: Banco de dados NoSQL aplicar (Cacheável - Requisito RESTFul)
+- **Swagger**: Documentação e consumo da API.
 
 
 ## 📊 Documentação do Sistema
@@ -249,7 +262,7 @@ Legenda:
 | ---------------------------- | -------------------------------------------------------------------------------- | ------ |
 | 🔗 Client-Server             | Separação clara entre frontend (client) e backend (server)                       | ✅      |
 | 🧱 Stateless                 | Cada requisição contém todas as informações necessárias (sem estado no servidor) | ✅      |
-| 📦 Cacheable                 | Respostas podem ser cacheadas para melhorar performance                          | ⬜      |
+| 📦 Cacheable                 | Respostas podem ser cacheadas para melhorar performance                          | ✅      |
 | 🎯 Uniform Interface         | API segue padrões consistentes (rotas, métodos HTTP, responses)                  | ✅      |
 | 🧩 Layered System            | Sistema organizado em camadas (controller, service, repository)                  | ✅      |
 | ⚙️ Code on Demand (opcional) | Servidor pode enviar código executável (raramente usado em APIs modernas)        | ⬜      |
@@ -262,6 +275,10 @@ O deploy foi realizado utilizando a plataforma Render, garantindo disponibilidad
 📄 Documentação da API
 A documentação completa da API está disponível via Swagger, permitindo testar os endpoints diretamente pelo navegador:
 🔗 https://backend-social-network-api.onrender.com/docs/
+
+### Overview Swagger Docs
+<p align="center">
+  <img src="./src/docs/images/swagger-docs.png" alt="UML de Classes" width="800"/>
 
 💡 Observações
 
