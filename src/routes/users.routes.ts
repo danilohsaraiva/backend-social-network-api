@@ -3,7 +3,7 @@ import { body, param } from 'express-validator';
 import { userController } from '../containers/user.container';
 import { checkAuth, dataValidation } from '../middlewares';
 import { cacheMiddleware } from '../middlewares/cache.middleware';
-import { CacheService } from '../infra';
+import { CACHE_KEYS, CacheService } from '../infra';
 import { cacheService } from '../containers';
 
 export class UsersRoutes {
@@ -457,12 +457,12 @@ export class UsersRoutes {
          */
         router.get("/users/:id/timeline",
             checkAuth,
-            cacheMiddleware(cacheService, 60),
             dataValidation([
                 param('id')
                     .notEmpty().withMessage('User id is required')
                     .isUUID().withMessage('User id must be a valid UUID'),
             ]),
+            cacheMiddleware(cacheService, 60, (req) => CACHE_KEYS.TIMELINE(req.params.id as string)),
             userController.showTimeLineByID
         )
 

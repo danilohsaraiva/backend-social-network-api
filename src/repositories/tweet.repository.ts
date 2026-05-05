@@ -1,6 +1,8 @@
 import { Tweet } from "@prisma/client";
 import { prismaConnection } from "../config/prisma.client";
 import { CreateTweetDto } from "../dtos";
+import { cacheService } from "../containers";
+import { CACHE_KEYS } from "../infra";
 
 export class TweetRepository {
 
@@ -46,6 +48,8 @@ export class TweetRepository {
                 }
             }
         });
+
+        cacheService.del(CACHE_KEYS.TIMELINE(currentUserId));
 
         return currentTweet;
     }

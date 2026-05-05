@@ -2,13 +2,16 @@ import { NextFunction, Request, Response } from "express";
 import { CacheService } from "../infra";
 import { HTTPResponse } from "../utils";
 
-export function cacheMiddleware(cacheService: CacheService, ttl: number) {
+export function cacheMiddleware(
+    cacheService: CacheService,
+    ttl: number,
+    keyBuilder: (req: Request) => string) {
     return async (req: Request, res: Response, next: NextFunction) => {
         try {
 
             if (req.method !== "GET") return next();
 
-            const key = `cache:${req.params.id}`;
+            const key = keyBuilder(req);
 
             const cacheData = await cacheService.get(key);
 
