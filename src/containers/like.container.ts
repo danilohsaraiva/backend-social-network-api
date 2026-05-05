@@ -5,5 +5,6 @@ import { LikeService } from "../services";
 const likeRepository = new LikeRepository();
 const likeService = new LikeService(likeRepository);
 const likeController = new LikeController(likeService);
+
 export { likeController };
 

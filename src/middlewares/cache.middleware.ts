@@ -8,11 +8,12 @@ export function cacheMiddleware(cacheService: CacheService, ttl: number) {
 
             if (req.method !== "GET") return next();
 
-            const key = `cache:${req.originalUrl}`;
+            const key = `cache:${req.params.id}`;
 
             const cacheData = await cacheService.get(key);
 
             if (cacheData) {
+                console.log("CACHE HIT 🔥");
                 return HTTPResponse({
                     res,
                     statusCode: 200,
@@ -35,14 +36,17 @@ export function cacheMiddleware(cacheService: CacheService, ttl: number) {
              * @returns 
              */
             res.json = (body: any) => {
-                cacheService.set(
-                    key,
-                    JSON.stringify(body),
-                    ttl
-                );
-
+                if (res.statusCode === 200) {
+                    cacheService.set(
+                        key,
+                        JSON.stringify(body),
+                        ttl
+                    );
+                }
                 return originalJson(body);
             };
+
+            console.log("CACHE HIT");
 
             return next()
         } catch (error) {

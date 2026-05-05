@@ -10,7 +10,8 @@ export const swaggerSpec = swaggerJSDoc({
         },
         servers: [
             {
-                url: "https://backend-social-network-api.onrender.com",
+                url: "http://localhost:3001"
+                //url: "https://backend-social-network-api.onrender.com",
             },
         ],
         components: {
