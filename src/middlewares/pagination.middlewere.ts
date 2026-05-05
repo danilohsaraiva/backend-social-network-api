@@ -5,12 +5,20 @@ export function paginationMiddleware(
     res: Response,
     next: NextFunction
 ) {
-    const page = Number(req.query.page ?? 1);
-    const limit = Number(req.query.limit ?? 10);
+    const pageRaw = Number(req.query.page);
+    const limitRaw = Number(req.query.limit);
+
+    const page =
+        Number.isFinite(pageRaw) && pageRaw > 0 ? pageRaw : 1;
+
+    const limit =
+        Number.isFinite(limitRaw) && limitRaw > 0
+            ? Math.min(limitRaw, 50)
+            : 10;
 
     req.pagination = {
-        page: page > 0 ? page : 1,
-        limit: Math.min(limit > 0 ? limit : 10, 50),
+        page,
+        limit,
     };
 
     next();
