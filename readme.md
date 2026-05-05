@@ -243,6 +243,17 @@ Legenda:
 ❌ Bloqueado
 🔐 Middleware de autenticação JWT
 
+## 👁‍🗨 Aplicando Princípios RESTFul
+
+| Princípio RESTful            | Descrição                                                                        | Status |
+| ---------------------------- | -------------------------------------------------------------------------------- | ------ |
+| 🔗 Client-Server             | Separação clara entre frontend (client) e backend (server)                       | ✅      |
+| 🧱 Stateless                 | Cada requisição contém todas as informações necessárias (sem estado no servidor) | ✅      |
+| 📦 Cacheable                 | Respostas podem ser cacheadas para melhorar performance                          | ⬜      |
+| 🎯 Uniform Interface         | API segue padrões consistentes (rotas, métodos HTTP, responses)                  | ✅      |
+| 🧩 Layered System            | Sistema organizado em camadas (controller, service, repository)                  | ✅      |
+| ⚙️ Code on Demand (opcional) | Servidor pode enviar código executável (raramente usado em APIs modernas)        | ⬜      |
+
 ## 🚀 Aplicação em Produção
 A aplicação já está disponível online e pode ser acessada pelo link abaixo:
 🔗 https://backend-social-network-api.onrender.com/
