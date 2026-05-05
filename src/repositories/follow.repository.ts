@@ -11,8 +11,8 @@ export class FollowRepository {
     async create(loggedUserId: string, followingUserId: string) {
         return prismaConnection.follow.create({
             data: {
-                followerFk: loggedUserId,
-                followingFk: followingUserId
+                followerFk: followingUserId,
+                followingFk: loggedUserId
             }
         });
     }
@@ -24,11 +24,11 @@ export class FollowRepository {
      * @param followingUserId - ID of the user to unfollow
      * @returns The result of the delete operation (number of deleted records)
      */
-    async delete(loggedUserId: string, followingUserId: string) {
+    async delete(loggedUserId: string, unfollowingUserId: string) {
         return prismaConnection.follow.deleteMany({
             where: {
-                followerFk: followingUserId,
-                followingFk: loggedUserId
+                followerFk: loggedUserId,
+                followingFk: unfollowingUserId
             }
         });
     }
