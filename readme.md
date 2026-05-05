@@ -141,18 +141,19 @@ Este repositório é um template no GitHub. Para usá-lo:
 - `npm run build`: Compila o TypeScript para JavaScript.
 - `npm run start`: Inicia o servidor em produção (após build).
 
-## Tecnologias Utilizadas
+## 🛠️ Tecnologias Utilizadas
 
-- **Node.js**: Runtime JavaScript.
-- **Express**: Framework web.
-- **TypeScript**: Linguagem de programação.
-- **Prisma**: ORM para banco de dados.
-- **PostgreSQL**: Banco de dados relacional.
-- **Docker**: Containerização.
-- **ts-node-dev**: Ferramenta para desenvolvimento com TypeScript e autoreload.
-- **Render**: Banco de dados NoSQL aplicar (Cacheável - Requisito RESTFul)
-- **Swagger**: Documentação e consumo da API.
-
+- **Node.js**: Runtime JavaScript para execução do backend.
+- **Express**: Framework web utilizado para construção da API.
+- **TypeScript**: Superset do JavaScript que adiciona tipagem estática.
+- **Prisma**: ORM utilizado para manipulação do banco de dados.
+- **PostgreSQL**: Banco de dados relacional utilizado na aplicação.
+- **Docker**: Ferramenta de containerização para padronização do ambiente.
+- **ts-node-dev**: Utilizado no desenvolvimento para execução com TypeScript e hot reload.
+- **Redis**: Banco de dados em memória utilizado para cache, melhorando performance da API (RESTful).
+- **Swagger**: Ferramenta para documentação e testes da API.
+- **Render**: Plataforma utilizada para deploy da aplicação em nuvem.
+- **jsonwebtoken (JWT)**: Utilizado para autenticação e troca segura de informações entre cliente e servidor.
 
 ## 📊 Documentação do Sistema
 
@@ -242,7 +243,7 @@ Acompanhamento dos endpoints da aplicação
 | 3  | Login de usuário                             | POST   | ✅ Concluído   | 🔐 JWT                                                                      |
 | 4  | Criar tweet                                  | POST   | ✅ Concluído   | 🔐 JWT                                                                      |
 | 5  | Criar resposta (reply) de tweet              | POST   | Pendente ❓   | 🔐 JWT <br> Rota abstraída para o endpoint `POST /tweets`                    |
-| 6  | Obter feed do usuário (tweets + tweets seguidores)    | GET    | 🚧 Em andamento   | 🔐 JWT                                                                      |
+| 6  | Obter feed do usuário (tweets + tweets seguidores)    | GET    | ✅ Concluído   | 🔐 JWT, Obs: (Aplicar Paginação)                                                                      |
 | 7  | Curtir tweet                                 | POST   | ✅ Concluído   | 🔐 JWT                                                                      |
 | 8  | Remover curtida de tweet                     | DELETE | ✅ Concluído   | 🔐 JWT                                                                      |
 | 9  | Seguir usuário                               | POST   | ✅ Concluído   | 🔐 JWT                                                                      |
@@ -267,18 +268,27 @@ Legenda:
 | 🧩 Layered System            | Sistema organizado em camadas (controller, service, repository)                  | ✅      |
 | ⚙️ Code on Demand (opcional) | Servidor pode enviar código executável (raramente usado em APIs modernas)        | ⬜      |
 
-## 🚀 Aplicação em Produção
-A aplicação já está disponível online e pode ser acessada pelo link abaixo:
-🔗 https://backend-social-network-api.onrender.com/
-O deploy foi realizado utilizando a plataforma Render, garantindo disponibilidade e acesso público à API.
 
-📄 Documentação da API
-A documentação completa da API está disponível via Swagger, permitindo testar os endpoints diretamente pelo navegador:
-🔗 https://backend-social-network-api.onrender.com/docs/
+## 🚀 Deploy da Aplicação
 
-### Overview Swagger Docs
+A aplicação já está disponível online e pode ser acessada através do link abaixo:
+
+🔗 **Acesso à API:**  
+https://backend-social-network-api.onrender.com/
+
+O deploy foi realizado utilizando a plataforma **Render**, garantindo disponibilidade contínua e acesso público à API.
+
+---
+
+## 📄 Documentação da API
+
+A documentação completa da API está disponível via **Swagger**, permitindo testar todos os endpoints diretamente pelo navegador:
+
+🔗 **Swagger UI:**  
+https://backend-social-network-api.onrender.com/docs/
+#### Overview Swagger Docs:
 <p align="center">
-  <img src="./src/docs/images/swagger-docs.png" alt="UML de Classes" width="800"/>
+  <img src="./src/docs/images/swagger-docs.png" alt="Dashboard Swagger" width="800"/>
 
 💡 Observações
 
