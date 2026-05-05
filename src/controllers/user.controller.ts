@@ -107,7 +107,7 @@ export class UserController {
     public showTimeLineByID = async (req: Request, res: Response, next: NextFunction) => {
         try {
 
-            const currentId = req.user?.userId as string;
+            const currentId = req.params.id as string;
 
             const currentProfile = await this.userService.showTimeLineById(currentId);
 
