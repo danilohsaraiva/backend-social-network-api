@@ -76,35 +76,6 @@ export class UserService {
         return this.mapToResponseUserDto(result);
     }
 
-    /**
-     * Removes a follow relationship between the authenticated user and another user (unfollow).
-     *
-     * This method first validates if the target user exists.
-     * Then it attempts to remove the follow relationship from the database.
-     * If no relationship is found, a 404 error is thrown.
-     *
-     * @param loggedUserId - ID of the authenticated user (follower)
-     * @param followinUserId - ID of the user to unfollow
-     * @throws HTTPError 404 - If the target user does not exist
-     * @throws HTTPError 404 - If no follow relationship exists between the users
-     * @returns The result of the delete operation (number of deleted records)
-     */
-    public async unfollow(loggedUserId: string, followinUserId: string) {
-
-        const validateUser: ResponseUserDto | null = await this.findById(followinUserId);
-
-        if (!validateUser) {
-            throw new HTTPError(404, "User not found");
-        }
-
-        const result = await this.followRespository.delete(loggedUserId, followinUserId);
-
-        if (result.count === 0) {
-            throw new HTTPError(404, "Follow relationship not found");
-        }
-
-        return result;
-    }
 
     public async showTimeLineById(id: string) {
         const currentTimeLine = await this.tweetRepository.showTimeLineById(id);

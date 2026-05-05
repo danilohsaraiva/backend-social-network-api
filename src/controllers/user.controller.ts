@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { CreateUserDto } from '../dtos/user/user-dto';
 import { UserService } from "../services";
-import { HTTPError, HTTPResponse } from "../utils";
 import { FollowService } from '../services/follow.service';
+import { HTTPError, HTTPResponse } from "../utils";
 
 /**
  * Repository responsável por todas as operações de banco relacionadas a Usuário.
@@ -90,12 +90,12 @@ export class UserController {
 
             const userLoggedId = req.user!.userId;
 
-            await this.userService.unfollow(id, userLoggedId);
+            await this.followService.unfollow(id, userLoggedId);
 
             HTTPResponse({
                 res,
                 statusCode: 200,
-                message: "Deleted Sucessfully",
+                message: "Unfollowed successfully",
                 data: null
             })
 
