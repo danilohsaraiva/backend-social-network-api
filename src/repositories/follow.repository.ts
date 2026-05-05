@@ -1,10 +1,6 @@
 import { prismaConnection } from "../config/prisma.client";
-import { CACHE_KEYS, CacheService } from "../infra";
 
 export class FollowRepository {
-    constructor(private cacheService: CacheService) {
-
-    }
 
     /**
      * Creates a follow relationship between two users.
@@ -21,8 +17,6 @@ export class FollowRepository {
             }
         });
 
-        await this.cacheService.del(CACHE_KEYS.TIMELINE(loggedUserId));
-        await this.cacheService.del(CACHE_KEYS.TIMELINE(followingUserId));
         return currentFollow;
     }
 
