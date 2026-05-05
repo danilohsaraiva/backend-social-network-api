@@ -50,6 +50,7 @@ export class TweetRepository {
         });
 
         cacheService.del(CACHE_KEYS.TIMELINE(currentUserId));
+        cacheService.del(CACHE_KEYS.USER(currentUserId));
 
         return currentTweet;
     }

@@ -125,13 +125,21 @@ export class UsersRoutes {
         * @swagger
         * /users/{id}:
         *   get:
-        *     summary: Get user by ID
-        *     description: Returns user data based on the provided ID (tweets and followers)
+        *     summary: Get user by ID (cached 60s)
+        *     description: |
+        *       Returns user data based on the provided ID (tweets and followers).
+        *
+        *       ⚡ Cacheable endpoint (TTL: 60 seconds).
+        *       This improves performance by reducing database load for frequently accessed user profiles.
+        *
         *     tags:
         *       - Users
         * 
         *     security:
         *       - bearerAuth: []
+        *
+        *     x-cacheable: true
+        *     x-cache-ttl: 60
         * 
         *     parameters:
         *       - in: path
@@ -199,6 +207,7 @@ export class UsersRoutes {
                     .notEmpty().withMessage('User id is required')
                     .isUUID().withMessage('User id must be a valid UUID')
             ]),
+            cacheMiddleware(cacheService, 60, (req) => CACHE_KEYS.USER(req.params.id as string)),
             userController.findById
         )
 
@@ -391,7 +400,6 @@ export class UsersRoutes {
             ]),
             userController.unfollow
         )
-
 
         /**
          * @swagger

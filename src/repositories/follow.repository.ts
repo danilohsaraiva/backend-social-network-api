@@ -1,4 +1,6 @@
 import { prismaConnection } from "../config/prisma.client";
+import { cacheService } from "../containers";
+import { CACHE_KEYS } from "../infra";
 
 export class FollowRepository {
 
@@ -17,6 +19,9 @@ export class FollowRepository {
             }
         });
 
+        cacheService.del(CACHE_KEYS.USER(followingUserId));
+        cacheService.del(CACHE_KEYS.USER(loggedUserId));
+
         return currentFollow;
     }
 
@@ -28,12 +33,17 @@ export class FollowRepository {
      * @returns The result of the delete operation (number of deleted records)
      */
     async delete(loggedUserId: string, unfollowingUserId: string) {
-        return prismaConnection.follow.deleteMany({
+        const currentUnfollow = await prismaConnection.follow.deleteMany({
             where: {
                 followerFk: loggedUserId,
                 followingFk: unfollowingUserId
             }
         });
+
+        cacheService.del(CACHE_KEYS.USER(unfollowingUserId));
+        cacheService.del(CACHE_KEYS.USER(loggedUserId));
+
+        return currentUnfollow;
     }
 
     async validateFollow(loggedUserId: string, followingUserId: string) {
