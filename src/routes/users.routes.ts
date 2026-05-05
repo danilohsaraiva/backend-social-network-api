@@ -395,12 +395,22 @@ export class UsersRoutes {
          * /users/{id}/timeline:
          *   get:
          *     summary: Get user timeline
-         *     description: Retrieves a timeline including the user's tweets and tweets from users they follow.
+         *     description: |
+         *       Retrieves a timeline including the user's tweets and tweets from users they follow.
+         *
+         *       ⚡ This endpoint is cacheable for a short period because timeline data
+         *       does not change every second and can be optimized using HTTP cache or Redis.
+         * 
+         *       ⏰ Cacheable endpoint (TTL: 60 seconds)
+         *
          *     tags:
          *       - Users
          *
          *     security:
          *       - bearerAuth: []
+         *
+         *     x-cacheable: true
+         *     x-cache-ttl: 60
          *
          *     parameters:
          *       - in: path
